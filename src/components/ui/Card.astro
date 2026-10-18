@@ -1,0 +1,61 @@
+---
+interface Props {
+  as?: 'div' | 'article' | 'a' | 'li';
+  href?: string;
+  marks?: boolean;
+  glow?: 'lime' | 'violet' | 'cyan' | 'amber' | 'none';
+  class?: string;
+  style?: string;
+}
+
+const { as = 'div', href, marks = false, glow = 'none', class: className, style } = Astro.props;
+const Tag = href ? 'a' : as;
+const glows = {
+  lime: 'var(--accent)',
+  violet: 'var(--violet)',
+  cyan: 'var(--cyan)',
+  amber: 'var(--amber)',
+  none: 'transparent',
+};
+---
+
+<Tag
+  href={href}
+  class:list={[
+    'card group/card relative isolate overflow-hidden rounded-card border border-line bg-surface shadow-card transition duration-500 ease-out',
+    (href || glow !== 'none') && 'hover:-translate-y-0.5 hover:border-line-strong',
+    className,
+  ]}
+  style={`--card-glow: ${glows[glow]};${style ?? ''}`}
+>
+  <div
+    class="pointer-events-none absolute -top-24 left-1/2 -z-10 h-48 w-3/4 -translate-x-1/2 rounded-full opacity-0 blur-3xl transition-opacity duration-700 group-hover/card:opacity-25"
+    style="background: var(--card-glow)"
+    aria-hidden="true"
+  >
+  </div>
+  {
+    marks && (
+      <>
+        <span class="mark top-3 left-3 border-t border-l" aria-hidden="true" />
+        <span class="mark top-3 right-3 border-t border-r" aria-hidden="true" />
+        <span class="mark bottom-3 left-3 border-b border-l" aria-hidden="true" />
+        <span class="mark right-3 bottom-3 border-r border-b" aria-hidden="true" />
+      </>
+    )
+  }
+  <slot />
+</Tag>
+
+<style>
+  .mark {
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    border-color: var(--line-strong);
+    transition: border-color 0.4s ease;
+  }
+  .card:hover .mark {
+    border-color: var(--fg-subtle);
+  }
+</style>

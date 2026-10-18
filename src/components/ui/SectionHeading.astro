@@ -1,0 +1,26 @@
+---
+interface Props {
+  index?: string;
+  eyebrow: string;
+  align?: 'left' | 'center';
+  class?: string;
+}
+
+const { index, eyebrow, align = 'left', class: className } = Astro.props;
+---
+
+<div class:list={['reveal max-w-3xl', align === 'center' && 'mx-auto text-center', className]}>
+  <p class:list={['label-mono flex items-center gap-3 text-fg-subtle', align === 'center' && 'justify-center']}>
+    {index && <span class="text-accent-ink">{index}</span>}
+    {index && <span class="h-px w-8 bg-line-strong" aria-hidden="true" />}
+    <span>{eyebrow}</span>
+  </p>
+  <h2 class="mt-5 text-h2 font-medium text-balance text-fg"><slot /></h2>
+  {
+    Astro.slots.has('lead') && (
+      <p class="mt-5 text-lg leading-relaxed text-pretty text-fg-muted">
+        <slot name="lead" />
+      </p>
+    )
+  }
+</div>

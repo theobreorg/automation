@@ -1,0 +1,35 @@
+---
+/** Segmented score meter (0–100) used for Stack Composer fit scores. */
+interface Props {
+  label: string;
+  value: number;
+  tone?: 'lime' | 'violet' | 'cyan' | 'amber';
+  segments?: number;
+  /** Hide the text label (kept for screen readers) and show the value beside the bar. */
+  compact?: boolean;
+}
+
+const { label, value, tone = 'lime', segments = 20, compact = false } = Astro.props;
+const clamped = Math.max(0, Math.min(100, value));
+const filled = Math.round((clamped / 100) * segments);
+const fills = { lime: 'bg-accent-ink', violet: 'bg-violet-ink', cyan: 'bg-cyan-ink', amber: 'bg-amber-ink' };
+---
+
+<div class:list={['w-full', compact && 'flex items-center gap-4']}>
+  {
+    !compact && (
+      <div class="flex items-baseline justify-between gap-4">
+        <span class="text-sm text-fg-muted">{label}</span>
+        <span class="font-mono text-sm text-fg tabular-nums">{clamped}</span>
+      </div>
+    )
+  }
+  <div class:list={['flex flex-1 gap-[3px]', !compact && 'mt-2']} role="meter" aria-label={label} aria-valuemin="0" aria-valuemax="100" aria-valuenow={clamped}>
+    {
+      Array.from({ length: segments }, (_, i) => (
+        <span class:list={['h-1.5 flex-1 rounded-[2px]', i < filled ? fills[tone] : 'bg-line-strong/60']} style={i < filled ? `opacity:${0.45 + (0.55 * (i + 1)) / filled}` : undefined} />
+      ))
+    }
+  </div>
+  {compact && <span class="w-7 text-right font-mono text-sm text-fg tabular-nums">{clamped}</span>}
+</div>

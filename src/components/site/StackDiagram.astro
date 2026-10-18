@@ -1,0 +1,117 @@
+---
+/**
+ * Signature visual: the layered test architecture as stacked isometric plates.
+ * Specs sit on domain actions, which sit on page/API objects, which sit on drivers.
+ */
+const layers = [
+  { n: '04', name: 'Specs', detail: 'checkout.spec.ts', tone: 'var(--accent)' },
+  { n: '03', name: 'Domain actions', detail: 'placeOrder() · signIn()', tone: 'var(--cyan)' },
+  { n: '02', name: 'Page & API objects', detail: 'CartPage · OrdersClient', tone: 'var(--violet)' },
+  { n: '01', name: 'Drivers & clients', detail: 'browser · http · grpc', tone: 'var(--fg-subtle)' },
+];
+---
+
+<div class="stack-scene" aria-hidden="true">
+  <div class="stack">
+    {
+      layers.map((l, i) => (
+        <div class="plate" style={`--i:${layers.length - 1 - i}; --tone:${l.tone}`}>
+          <div class="plate-face">
+            <span class="plate-n">{l.n}</span>
+            <span class="plate-name">{l.name}</span>
+            <span class="plate-detail">{l.detail}</span>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .stack-scene {
+    container-type: inline-size;
+    perspective: 1600px;
+    width: 100%;
+    aspect-ratio: 1 / 0.82;
+    display: grid;
+    place-items: center;
+  }
+  .stack {
+    position: relative;
+    width: 72%;
+    aspect-ratio: 1.45 / 1;
+    transform-style: preserve-3d;
+    transform: rotateX(58deg) rotateZ(-38deg);
+    animation: float 9s ease-in-out infinite;
+  }
+  .plate {
+    --gap: 9.5cqw;
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    transform: translateZ(calc(var(--i) * var(--gap)));
+    transition: transform 0.9s var(--ease-out-expo);
+  }
+  .stack-scene:hover .plate {
+    transform: translateZ(calc(var(--i) * var(--gap) * 1.35));
+  }
+  .plate-face {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    align-content: end;
+    column-gap: 0.9rem;
+    padding: 6% 7%;
+    border-radius: 18px;
+    border: 1px solid color-mix(in oklab, var(--tone) 55%, transparent);
+    background:
+      linear-gradient(135deg, color-mix(in oklab, var(--tone) 20%, transparent), transparent 60%),
+      color-mix(in oklab, var(--surface) 82%, transparent);
+    box-shadow:
+      0 0 0 1px rgb(255 255 255 / 0.03) inset,
+      0 40px 60px -30px rgb(0 0 0 / 0.55),
+      0 0 50px -12px color-mix(in oklab, var(--tone) 45%, transparent);
+    backdrop-filter: blur(6px);
+  }
+  .plate-face::before {
+    /* fine grid etched into each plate */
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image:
+      linear-gradient(to right, var(--grid) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+    background-size: 22px 22px;
+    opacity: 0.9;
+  }
+  .plate-n {
+    grid-row: span 2;
+    align-self: center;
+    font-family: var(--font-mono);
+    font-size: max(0.55rem, 1.5cqw);
+    color: var(--tone);
+    letter-spacing: 0.1em;
+  }
+  .plate-name {
+    font-size: max(0.7rem, 2.6cqw);
+    font-weight: 500;
+    color: var(--fg);
+    letter-spacing: -0.01em;
+  }
+  .plate-detail {
+    font-family: var(--font-mono);
+    font-size: max(0.5rem, 1.35cqw);
+    color: var(--fg-subtle);
+  }
+  @container (width < 420px) {
+    .plate-detail { display: none; }
+    .plate-n { grid-row: auto; }
+  }
+  @keyframes float {
+    0%, 100% { transform: rotateX(58deg) rotateZ(-38deg) translateZ(0); }
+    50% { transform: rotateX(58deg) rotateZ(-38deg) translateZ(2.5cqw); }
+  }
+</style>

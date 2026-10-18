@@ -1,0 +1,24 @@
+---
+interface Props {
+  filename?: string;
+  code: string;
+}
+
+const { filename, code } = Astro.props;
+---
+
+<figure class="overflow-hidden rounded-card border border-line bg-bg-elev">
+  {
+    filename && (
+      <figcaption class="flex items-center gap-2 border-b border-line px-4 py-2.5">
+        <span class="flex gap-1.5" aria-hidden="true">
+          <span class="size-2.5 rounded-full bg-line-strong" />
+          <span class="size-2.5 rounded-full bg-line-strong" />
+          <span class="size-2.5 rounded-full bg-line-strong" />
+        </span>
+        <span class="ml-2 font-mono text-xs text-fg-subtle">{filename}</span>
+      </figcaption>
+    )
+  }
+  <pre class="overflow-x-auto p-5 font-mono text-[0.8125rem] leading-relaxed text-fg-muted"><code>{code}</code></pre>
+</figure>

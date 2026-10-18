@@ -1,0 +1,28 @@
+---
+/** The building block of every "when / why / how" guide. */
+type Kind = 'when' | 'why' | 'how' | 'caution';
+
+interface Props {
+  kind: Kind;
+  title?: string;
+  class?: string;
+}
+
+const { kind, title, class: className } = Astro.props;
+const meta: Record<Kind, { label: string; tone: string; bar: string }> = {
+  when: { label: 'When', tone: 'text-accent-ink', bar: 'bg-accent-ink' },
+  why: { label: 'Why', tone: 'text-violet-ink', bar: 'bg-violet-ink' },
+  how: { label: 'How', tone: 'text-cyan-ink', bar: 'bg-cyan-ink' },
+  caution: { label: 'Watch out', tone: 'text-amber-ink', bar: 'bg-amber-ink' },
+};
+const m = meta[kind];
+---
+
+<section class:list={['relative overflow-hidden rounded-card border border-line bg-surface p-6 pl-7', className]}>
+  <span class:list={['absolute inset-y-5 left-0 w-[3px] rounded-r-full', m.bar]} aria-hidden="true"></span>
+  <p class:list={['label-mono', m.tone]}>{m.label}</p>
+  {title && <h3 class="mt-3 text-h3 font-medium text-fg">{title}</h3>}
+  <div class="mt-3 space-y-3 text-[0.9375rem] leading-relaxed text-fg-muted [&_strong]:font-medium [&_strong]:text-fg">
+    <slot />
+  </div>
+</section>

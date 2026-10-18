@@ -1,0 +1,44 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import { href as withBase } from '../../config/site';
+
+type Variant = 'primary' | 'secondary' | 'ghost';
+type Size = 'sm' | 'md' | 'lg';
+
+interface Props extends Omit<HTMLAttributes<'a'>, 'href'> {
+  href?: string;
+  variant?: Variant;
+  size?: Size;
+  arrow?: boolean;
+  type?: 'button' | 'submit';
+}
+
+const { href, variant = 'primary', size = 'md', arrow = false, class: className, type = 'button', ...rest } = Astro.props;
+
+const base =
+  'group/btn relative inline-flex items-center justify-center gap-2 rounded-full font-medium whitespace-nowrap transition duration-300 ease-out select-none disabled:pointer-events-none disabled:opacity-40';
+const variants: Record<Variant, string> = {
+  primary:
+    'bg-accent text-on-accent shadow-[0_0_0_1px_rgb(0_0_0/0.06),0_8px_30px_-8px_color-mix(in_oklab,var(--accent)_70%,transparent)] hover:shadow-[0_0_0_1px_rgb(0_0_0/0.06),0_10px_40px_-6px_color-mix(in_oklab,var(--accent)_90%,transparent)] hover:-translate-y-px',
+  secondary: 'border border-line-strong bg-surface/60 text-fg backdrop-blur hover:border-fg-subtle hover:bg-surface-2',
+  ghost: 'text-fg-muted hover:text-fg hover:bg-surface-2',
+};
+const sizes: Record<Size, string> = {
+  sm: 'h-9 px-4 text-sm',
+  md: 'h-11 px-5 text-[0.9375rem]',
+  lg: 'h-13 px-7 text-base',
+};
+const cls = [base, variants[variant], sizes[size], className];
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag class:list={cls} href={href ? withBase(href) : undefined} type={href ? undefined : type} {...rest}>
+  <slot />
+  {
+    arrow && (
+      <svg class="size-4 transition-transform duration-300 group-hover/btn:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M3 8h10m-4-4 4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    )
+  }
+</Tag>

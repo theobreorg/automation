@@ -1,0 +1,237 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens.
+ * Every color is a CSS variable so both themes share one set of utility classes
+ * (bg-surface, text-fg-muted, border-line …). Add new tokens here, never hex values in components.
+ */
+
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: #07090d;
+  --bg-elev: #0b0e14;
+  --surface: #10141c;
+  --surface-2: #161b25;
+  --line: rgb(255 255 255 / 0.075);
+  --line-strong: rgb(255 255 255 / 0.15);
+  --grid: rgb(255 255 255 / 0.035);
+
+  --fg: #eceef2;
+  --fg-muted: #a1a9b8;
+  --fg-subtle: #6b7486;
+
+  /* Signal lime: the brand accent. `accent` is a fill, `accent-ink` is accent-colored text. */
+  --accent: #c8f55a;
+  --accent-ink: #c8f55a;
+  --on-accent: #0b1004;
+
+  --violet: #8f7cff;
+  --violet-ink: #ac9fff;
+  --cyan: #4fd8e6;
+  --cyan-ink: #6fe3ef;
+  --amber: #f5b544;
+  --amber-ink: #f7c46a;
+  --red: #ff6b6b;
+  --red-ink: #ff8a8a;
+
+  --glow-1: rgb(143 124 255 / 0.32);
+  --glow-2: rgb(79 216 230 / 0.2);
+  --glow-3: rgb(200 245 90 / 0.14);
+
+  --shadow-card: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 20px 50px -24px rgb(0 0 0 / 0.7);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --bg: #f4f2ec;
+  --bg-elev: #f9f8f4;
+  --surface: #ffffff;
+  --surface-2: #efece4;
+  --line: rgb(14 18 25 / 0.09);
+  --line-strong: rgb(14 18 25 / 0.18);
+  --grid: rgb(14 18 25 / 0.045);
+
+  --fg: #0e1219;
+  --fg-muted: #4a5263;
+  --fg-subtle: #737a89;
+
+  --accent: #c8f55a;
+  --accent-ink: #3d6a00;
+  --on-accent: #0b1004;
+
+  --violet: #6a55f0;
+  --violet-ink: #5340d6;
+  --cyan: #12a3b4;
+  --cyan-ink: #0b7482;
+  --amber: #e09a1b;
+  --amber-ink: #935f00;
+  --red: #e5484d;
+  --red-ink: #c22a30;
+
+  --glow-1: rgb(106 85 240 / 0.16);
+  --glow-2: rgb(18 163 180 / 0.12);
+  --glow-3: rgb(160 214 40 / 0.18);
+
+  --shadow-card: 0 1px 0 rgb(255 255 255 / 0.8) inset, 0 18px 40px -28px rgb(14 18 25 / 0.35);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-elev: var(--bg-elev);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-on-accent: var(--on-accent);
+  --color-violet: var(--violet);
+  --color-violet-ink: var(--violet-ink);
+  --color-cyan: var(--cyan);
+  --color-cyan-ink: var(--cyan-ink);
+  --color-amber: var(--amber);
+  --color-amber-ink: var(--amber-ink);
+  --color-red: var(--red);
+  --color-red-ink: var(--red-ink);
+
+  --shadow-card: var(--shadow-card);
+}
+
+@theme {
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
+  --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
+
+  /* Fluid display sizes; body sizes come from Tailwind's defaults. */
+  --text-display: clamp(2.6rem, 1.5rem + 4.6vw, 5.5rem);
+  --text-display--line-height: 0.98;
+  --text-display--letter-spacing: -0.035em;
+  --text-h1: clamp(2.25rem, 1.6rem + 2.8vw, 4rem);
+  --text-h1--line-height: 1.02;
+  --text-h1--letter-spacing: -0.03em;
+  --text-h2: clamp(1.75rem, 1.35rem + 1.6vw, 2.75rem);
+  --text-h2--line-height: 1.08;
+  --text-h2--letter-spacing: -0.025em;
+  --text-h3: 1.375rem;
+  --text-h3--line-height: 1.25;
+  --text-h3--letter-spacing: -0.015em;
+
+  --radius-card: 1.125rem;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-drift: drift 22s ease-in-out infinite alternate;
+  --animate-rise: rise 0.9s var(--ease-out-expo) both;
+  --animate-pulse-dot: pulse-dot 2.4s ease-in-out infinite;
+
+  @keyframes drift {
+    0% { transform: translate3d(-4%, -2%, 0) scale(1); }
+    100% { transform: translate3d(4%, 3%, 0) scale(1.12); }
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 color-mix(in oklab, var(--accent) 55%, transparent); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 6px transparent; }
+  }
+}
+
+@layer base {
+  html {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-feature-settings: 'ss01', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+  body {
+    min-height: 100dvh;
+    background: var(--bg);
+    overflow-x: clip;
+  }
+  ::selection {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent-ink);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+/* Emphasis words in headlines: "Compose the right stack. *With reasons.*" */
+@utility em-serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Small uppercase mono label used for eyebrows, metadata and numbering. */
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Blueprint grid, faded toward the edges. */
+@utility bg-blueprint {
+  background-image:
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 40%, transparent 100%);
+}
+
+/* Text filled with the aurora gradient. */
+@utility text-aurora {
+  background: linear-gradient(100deg, var(--accent-ink) 0%, var(--cyan-ink) 45%, var(--violet-ink) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility container-page {
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  @media (width >= 48rem) {
+    padding-inline: 2rem;
+  }
+}
+
+/*
+ * Reveal-on-scroll. Content is visible at rest: BaseLayout only marks elements that start
+ * below the fold as pending, so the first screen, thumbnails and no-JS readers see everything.
+ */
+.reveal {
+  transition:
+    opacity 0.9s var(--ease-out-expo),
+    transform 0.9s var(--ease-out-expo);
+}
+.reveal.is-pending {
+  opacity: 0;
+  transform: translateY(18px);
+}
