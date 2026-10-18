@@ -1,0 +1,7 @@
+[
+  {"id": "ts-spa", "order": 1, "label": "TypeScript SPA", "traits": ["web-spa", "monolith", "lang-ts", "devs-write-tests", "fast-feedback"]},
+  {"id": "java-microservices", "order": 2, "label": "Java microservices", "traits": ["web-spa", "microservices", "event-driven", "stateful-backend", "lang-java", "qa-team", "large-suite"]},
+  {"id": "python-api", "order": 3, "label": "Python public API", "traits": ["public-api", "monolith", "stateful-backend", "lang-python", "devs-write-tests"]},
+  {"id": "dotnet-legacy", "order": 4, "label": ".NET legacy web", "traits": ["legacy-ui", "web-ssr", "monolith", "lang-csharp", "qa-team", "cross-browser", "flaky-suite"]},
+  {"id": "web-mobile", "order": 5, "label": "Web + mobile platform", "traits": ["web-spa", "mobile-native", "microservices", "third-party", "lang-ts", "qa-team", "a11y", "reporting"]}
+]

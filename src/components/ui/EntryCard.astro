@@ -1,0 +1,30 @@
+---
+import Card from './Card.astro';
+import Tag from './Tag.astro';
+import { entryPath, kindMeta, type EntryRef } from '../../data/content';
+import { href } from '../../config/site';
+
+interface Props {
+  entry: EntryRef;
+  meta?: string;
+  class?: string;
+}
+
+const { entry, meta, class: className } = Astro.props;
+const glow = { tool: 'lime', pattern: 'violet', practice: 'cyan', guide: 'amber' } as const;
+---
+
+<Card href={href(entryPath(entry.kind, entry.id))} glow={glow[entry.kind]} class:list={['flex flex-col p-6', className]}>
+  <div class="flex items-center justify-between gap-3">
+    <Tag kind={entry.kind}>{kindMeta[entry.kind].label}</Tag>
+    {meta && <span class="truncate font-mono text-[0.6875rem] text-fg-subtle">{meta}</span>}
+  </div>
+  <h3 class="mt-5 text-lg font-medium tracking-[-0.01em] text-fg">{entry.title}</h3>
+  <p class="mt-2 line-clamp-3 text-sm leading-relaxed text-fg-muted">{entry.summary}</p>
+  <span class="mt-auto inline-flex items-center gap-1.5 pt-5 text-xs text-fg-subtle transition-colors group-hover/card:text-fg">
+    Read more
+    <svg class="size-3.5 transition-transform group-hover/card:translate-x-0.5" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M3 8h10m-4-4 4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+    </svg>
+  </span>
+</Card>

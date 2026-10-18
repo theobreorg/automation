@@ -1,0 +1,151 @@
+[
+  {
+    "id": "foundations",
+    "number": 1,
+    "title": "Foundational principles",
+    "line": "Independent, deterministic tests at the right level of the pyramid, with fast feedback.",
+    "points": [
+      "Each test sets up its own state and can run alone, in any order and in parallel.",
+      "The same input gives the same result. Flakiness is a defect, not noise.",
+      "Push checks down to unit, API and contract tests. Keep UI end-to-end tests thin and focused on critical journeys.",
+      "Short suites on every commit, broader suites nightly, with smoke and regression tiers.",
+      "Tests are production-grade code: review, naming conventions, DRY, SOLID and linting all apply.",
+      "One behavior per test, with failure messages that point to the cause.",
+      "Test early in the pipeline, and verify in production with synthetic monitoring."
+    ]
+  },
+  {
+    "id": "architecture",
+    "number": 2,
+    "title": "Architecture & design patterns",
+    "line": "Layered suites: specs, domain actions, page or API objects, drivers. No locators in specs.",
+    "points": [
+      "Separate specs, domain actions, page or API abstractions, and low-level drivers or clients.",
+      "Page and component objects encapsulate UI structure; component objects scale better than one giant page class.",
+      "Screenplay describes tests as actors performing tasks and asking questions.",
+      "API client wrappers give one place for HTTP or SDK interaction, with typed models.",
+      "Factories and builders create test data with sensible defaults and per-test overrides.",
+      "Inject drivers, clients and config instead of using singletons or static globals.",
+      "Strategies swap browsers, devices, environments or auth methods without changing tests.",
+      "BDD (Gherkin) is only worth it if business stakeholders actually read the specs."
+    ]
+  },
+  {
+    "id": "isolation",
+    "number": 3,
+    "title": "Isolation & context",
+    "line": "Every test gets its own context, data and typed state store, cleaned up automatically.",
+    "points": [
+      "Every test gets its own browser context or session, HTTP client, cookies, storage and user account.",
+      "Use thread-local, async-local or per-worker containers, never mutable statics.",
+      "Pass data between steps through a typed, test-scoped context object, not a stringly-typed map.",
+      "Clean up in teardown even on failure; better still, use unique data so cleanup isn't needed for correctness."
+    ]
+  },
+  {
+    "id": "parallelism",
+    "number": 4,
+    "title": "Parallelism & scale",
+    "line": "Worker-scoped resources, sharding by duration and ephemeral environments.",
+    "points": [
+      "Run in parallel at file, test or scenario level, with worker-scoped resources.",
+      "Shard across CI machines, ideally balanced by historical duration.",
+      "Give parallel runs unique names, IDs or tenants, and lease dedicated accounts from a pool.",
+      "Use containers or per-PR environments so tests never fight over shared state.",
+      "Drive cross-browser and device matrices from config, not code."
+    ]
+  },
+  {
+    "id": "synchronization",
+    "number": 5,
+    "title": "Synchronization",
+    "line": "Never sleep. Wait on signals, with web-first assertions and layered timeouts.",
+    "points": [
+      "Never use fixed sleeps.",
+      "Wait for an element state, network response, event or DOM condition.",
+      "Use web-first assertions that poll until a timeout.",
+      "Wait on signals, not time: a specific API response or a job status polled with backoff and a hard timeout.",
+      "Treat timeouts as layered configuration, tuned per environment.",
+      "For async backends, poll for eventual consistency instead of asserting immediately."
+    ]
+  },
+  {
+    "id": "reliability",
+    "number": 6,
+    "title": "Reliability & flakes",
+    "line": "Retry at the right level, quarantine with an owner and capture traces on failure.",
+    "points": [
+      "Retry known transient actions; allow one or two test-level retries as a CI safety net, not a fix.",
+      "Never retry assertions on real business outcomes just to make them pass.",
+      "Track pass rates per test, tag flaky tests and quarantine them with an owner and a deadline.",
+      "Capture traces, videos, screenshots, HAR files and logs on failure.",
+      "Prefer dedicated test IDs, then role or accessibility locators, over brittle XPath and CSS chains.",
+      "Treat self-healing locators as suggestions; they can mask real regressions."
+    ]
+  },
+  {
+    "id": "test-data",
+    "number": 7,
+    "title": "Test data",
+    "line": "API-driven setup, builders with overrides and seeded synthetic data.",
+    "points": [
+      "Drive tests from tables, CSV, JSON or generators.",
+      "Create preconditions through APIs or the database, not the UI.",
+      "Use synthetic data generators with seeded randomness so failures reproduce.",
+      "Keep golden datasets for read-only reference data, with clear lifecycle rules.",
+      "Keep secrets in a vault or CI secrets, never in the repo.",
+      "Layer configuration (defaults, environment, local override) with no environment values in test code."
+    ]
+  },
+  {
+    "id": "test-doubles",
+    "number": 8,
+    "title": "Test doubles",
+    "line": "Mocks, network interception, contract tests and control over clocks and flags.",
+    "points": [
+      "Mock, stub or virtualize third-party and unstable dependencies.",
+      "Intercept the network to simulate failures, latency and edge cases deterministically.",
+      "Use contract testing to decouple service tests from full end-to-end environments.",
+      "Control clocks and feature flags so tests are deterministic."
+    ]
+  },
+  {
+    "id": "assertions",
+    "number": 9,
+    "title": "Assertions",
+    "line": "Expressive failures, schema validation and non-functional checks in one framework.",
+    "points": [
+      "Write expressive assertions with rich failure output.",
+      "Use soft assertions to gather several failures in one run.",
+      "Validate API responses against schemas and contracts.",
+      "Run accessibility, visual, performance-budget and basic security checks in the same framework."
+    ]
+  },
+  {
+    "id": "observability",
+    "number": 10,
+    "title": "Observability & CI/CD",
+    "line": "Correlated logs, rich reports, quality gates and test impact analysis.",
+    "points": [
+      "Use structured logs with correlation IDs that link test steps to backend traces.",
+      "Publish rich reports with step detail, attachments, history and trends.",
+      "Run headless and containerized, cache dependencies and keep artifacts on failure.",
+      "Gate merges and deployments on tests, with tags to select suites.",
+      "Run only the tests affected by a change.",
+      "Track duration, flake rate, critical-path coverage and time to diagnose failures."
+    ]
+  },
+  {
+    "id": "maintainability",
+    "number": 11,
+    "title": "Maintainability",
+    "line": "Conventions, composable helpers, regular pruning and clear ownership.",
+    "points": [
+      "Agree on naming, folder layout and tagging, and document how to write a test.",
+      "Prefer small, composable helpers over deep inheritance.",
+      "Delete redundant or low-value tests regularly.",
+      "Give every test area an owner and triage failures fast.",
+      "Pin tool, browser and driver versions and run in containers."
+    ]
+  }
+]

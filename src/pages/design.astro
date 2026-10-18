@@ -1,0 +1,273 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Aurora from '../components/site/Aurora.astro';
+import StackDiagram from '../components/site/StackDiagram.astro';
+import Button from '../components/ui/Button.astro';
+import Card from '../components/ui/Card.astro';
+import Tag from '../components/ui/Tag.astro';
+import Meter from '../components/ui/Meter.astro';
+import Callout from '../components/ui/Callout.astro';
+import CodeBlock from '../components/ui/CodeBlock.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import TraitPicker from '../components/islands/TraitPicker';
+
+const sampleTraits = [
+  { id: 'spa', label: 'Single-page app' },
+  { id: 'rest', label: 'REST APIs' },
+  { id: 'graphql', label: 'GraphQL' },
+  { id: 'microservices', label: 'Microservices' },
+  { id: 'events', label: 'Event-driven' },
+  { id: 'mobile', label: 'Mobile client' },
+];
+
+const surfaces = ['bg', 'bg-elev', 'surface', 'surface-2', 'line', 'line-strong'];
+const text = ['fg', 'fg-muted', 'fg-subtle'];
+const accents = [
+  { token: 'accent', role: 'Brand · Tools · Pass' },
+  { token: 'violet', role: 'Patterns' },
+  { token: 'cyan', role: 'Practices' },
+  { token: 'amber', role: 'Guides · Trade-offs' },
+  { token: 'red', role: 'Failures' },
+];
+
+const typeScale = [
+  { name: 'Display', cls: 'text-display font-medium', spec: 'Geist 500 · clamp(42–88px) · -3.5%', sample: 'Compose the stack.' },
+  { name: 'Heading 1', cls: 'text-h1 font-medium', spec: 'Geist 500 · clamp(36–64px) · -3%', sample: 'Patterns that scale' },
+  { name: 'Heading 2', cls: 'text-h2 font-medium', spec: 'Geist 500 · clamp(28–44px) · -2.5%', sample: 'Weighted scoring' },
+  { name: 'Heading 3', cls: 'text-h3 font-medium', spec: 'Geist 500 · 22px · -1.5%', sample: 'Start with three tasks' },
+  { name: 'Body large', cls: 'text-lg text-fg-muted', spec: 'Geist 400 · 18px / 1.65', sample: 'Every tool earns points for the traits of your application.' },
+  { name: 'Body', cls: 'text-[0.9375rem] text-fg-muted', spec: 'Geist 400 · 15px / 1.65', sample: 'Push checks down to unit, API and contract tests.' },
+  { name: 'Label', cls: 'label-mono text-fg-subtle', spec: 'Geist Mono 400 · 11px · +14% · uppercase', sample: 'Stack Composer' },
+  { name: 'Emphasis', cls: 'text-h2 em-serif', spec: 'Instrument Serif italic · headline accents only', sample: 'With reasons.' },
+];
+
+const code = `export const playwright = defineTool({
+  id: 'playwright',
+  category: 'ui-e2e',
+  weights: {
+    spa: 3,            // auto-waiting suits client-rendered UIs
+    'cross-browser': 3,
+    mobile: -1,        // no native mobile support
+  },
+});`;
+---
+
+<BaseLayout title="Design system" description="Tokens, type and components of the Stackwright design system.">
+  <section class="relative isolate">
+    <Aurora />
+    <div class="container-page pt-20 pb-16 md:pt-28">
+      <p class="label-mono animate-rise text-fg-subtle">Design system · v0.1</p>
+      <h1 class="animate-rise mt-6 max-w-4xl text-h1 font-medium text-balance [animation-delay:80ms]">
+        Blueprint precision, <span class="em-serif text-aurora pr-[0.08em]">night-shift glow.</span>
+      </h1>
+      <p class="animate-rise mt-6 max-w-2xl text-lg leading-relaxed text-pretty text-fg-muted [animation-delay:160ms]">
+        The visual language of an architect's drafting table, lit like a monitoring wall. A fine grid and registration marks for precision, one
+        signal color for what passes, and an editorial serif for the moments that matter.
+      </p>
+      <div class="animate-rise mt-10 grid gap-px overflow-hidden rounded-card border border-line bg-line sm:grid-cols-3 [animation-delay:240ms]">
+        {
+          [
+            ['Precise', 'Grids, mono labels and numbered sections make structure visible.'],
+            ['Signal over noise', 'One lime accent marks what to act on. Category hues carry meaning, never decoration.'],
+            ['Calm motion', 'Slow drift and gentle reveals. Everything respects reduced motion.'],
+          ].map(([t, d]) => (
+            <div class="bg-surface/70 p-6 backdrop-blur">
+              <p class="font-medium text-fg">{t}</p>
+              <p class="mt-2 text-sm leading-relaxed text-fg-muted">{d}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Color -->
+  <section class="container-page pt-24">
+    <SectionHeading index="01" eyebrow="Color">
+      Two themes, <span class="em-serif">one set of tokens.</span>
+      <Fragment slot="lead">Components only reference tokens, so the light and dark themes stay in sync. Use the toggle in the header to compare.</Fragment>
+    </SectionHeading>
+
+    <div class="mt-12 grid gap-10 lg:grid-cols-2">
+      <div class="reveal">
+        <p class="label-mono text-fg-subtle">Surfaces & lines</p>
+        <div class="mt-4 grid grid-cols-3 gap-3">
+          {
+            surfaces.map((t) => (
+              <div>
+                <div class="h-20 rounded-xl border border-line-strong" style={`background: var(--${t})`} />
+                <p class="mt-2 font-mono text-xs text-fg">{t}</p>
+                <p class="font-mono text-[0.6875rem] text-fg-subtle" data-token-value={t} />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+      <div class="reveal">
+        <p class="label-mono text-fg-subtle">Text</p>
+        <div class="mt-4 space-y-3">
+          {
+            text.map((t) => (
+              <div class="flex items-center justify-between rounded-xl border border-line bg-surface px-4 py-3">
+                <span class="text-lg font-medium" style={`color: var(--${t})`}>
+                  Aa — Test automation architecture
+                </span>
+                <span class="text-right font-mono text-xs text-fg-subtle">
+                  {t} <span class="block" data-token-value={t} />
+                </span>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal mt-10">
+      <p class="label-mono text-fg-subtle">Signal & category hues</p>
+      <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+        {
+          accents.map((a) => (
+            <div class="overflow-hidden rounded-card border border-line bg-surface">
+              <div class="relative h-28" style={`background: var(--${a.token})`}>
+                <span class="absolute bottom-3 left-3 font-mono text-[0.6875rem] text-[#0b1004]/80">{a.token}</span>
+              </div>
+              <div class="p-4">
+                <p class="text-sm font-medium" style={`color: var(--${a.token}-ink)`}>
+                  {a.role}
+                </p>
+                <p class="mt-1 font-mono text-[0.6875rem] text-fg-subtle">
+                  fill <span data-token-value={a.token} /> · ink <span data-token-value={`${a.token}-ink`} />
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Typography -->
+  <section class="container-page pt-32">
+    <SectionHeading index="02" eyebrow="Typography">
+      Geist for work, <span class="em-serif">Instrument Serif for emphasis.</span>
+      <Fragment slot="lead">A neutral grotesk carries the interface, a mono voice labels the system, and a serif italic marks the one phrase per headline that matters.</Fragment>
+    </SectionHeading>
+    <div class="mt-12 divide-y divide-line rounded-card border border-line bg-bg-elev">
+      {
+        typeScale.map((t) => (
+          <div class="reveal grid gap-3 p-6 md:grid-cols-[14rem_1fr] md:items-baseline md:gap-8 md:p-8">
+            <div>
+              <p class="text-sm font-medium text-fg">{t.name}</p>
+              <p class="mt-1 font-mono text-[0.6875rem] text-fg-subtle">{t.spec}</p>
+            </div>
+            <p class:list={['min-w-0 text-balance text-fg', t.cls]}>{t.sample}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Components -->
+  <section class="container-page pt-32">
+    <SectionHeading index="03" eyebrow="Components">
+      Built once, <span class="em-serif">composed everywhere.</span>
+      <Fragment slot="lead">The primitives every page is assembled from. Each one lives in src/components/ui and accepts tokens, not colors.</Fragment>
+    </SectionHeading>
+
+    <div class="mt-12 grid gap-4 lg:grid-cols-2">
+      <Card marks class="reveal p-7">
+        <p class="label-mono text-fg-subtle">Buttons</p>
+        <div class="mt-6 flex flex-wrap items-center gap-3">
+          <Button arrow>Primary</Button>
+          <Button variant="secondary">Secondary</Button>
+          <Button variant="ghost">Ghost</Button>
+        </div>
+        <div class="mt-4 flex flex-wrap items-center gap-3">
+          <Button size="sm">Small</Button>
+          <Button size="lg" arrow>Large</Button>
+        </div>
+      </Card>
+
+      <Card marks class="reveal p-7">
+        <p class="label-mono text-fg-subtle">Tags</p>
+        <div class="mt-6 flex flex-wrap gap-2">
+          <Tag kind="tool">Tool</Tag>
+          <Tag kind="pattern">Pattern</Tag>
+          <Tag kind="practice">Practice</Tag>
+          <Tag kind="guide">Guide</Tag>
+          <Tag kind="neutral">Neutral</Tag>
+        </div>
+        <div class="mt-4 flex flex-wrap gap-2">
+          <Tag kind="tool" dot={false}>@smoke</Tag>
+          <Tag kind="neutral" dot={false}>TypeScript</Tag>
+          <Tag kind="neutral" dot={false}>Open source</Tag>
+        </div>
+      </Card>
+
+      <Card marks class="reveal p-7">
+        <p class="label-mono text-fg-subtle">Meters</p>
+        <div class="mt-6 space-y-5">
+          <Meter label="UI end-to-end fit" value={92} />
+          <Meter label="Contract testing fit" value={74} tone="cyan" />
+          <Meter label="Mobile coverage" value={38} tone="amber" />
+        </div>
+      </Card>
+
+      <Card marks class="reveal p-7">
+        <p class="label-mono text-fg-subtle">Trait picker · React island</p>
+        <div class="mt-6">
+          <TraitPicker client:visible legend="What does your application look like?" traits={sampleTraits} initial={['rest']} />
+        </div>
+      </Card>
+    </div>
+
+    <div class="mt-4 grid gap-4 md:grid-cols-2">
+      <Callout kind="when" title="Independent services" class="reveal"><p>Several services own their APIs and deploy independently.</p></Callout>
+      <Callout kind="why" title="Catch breaks early" class="reveal"><p>Contract tests catch breaking changes without a shared end-to-end environment.</p></Callout>
+      <Callout kind="how" title="Pacts in CI" class="reveal"><p>Consumers publish pacts on every PR; providers verify them in CI before deploying.</p></Callout>
+      <Callout kind="caution" title="Not a full journey" class="reveal"><p>Contracts do not prove the full journey works. Keep a thin smoke suite.</p></Callout>
+    </div>
+
+    <div class="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+      <div class="reveal min-w-0">
+        <CodeBlock filename="data/tools/playwright.ts" code={code} />
+      </div>
+      <Card glow="violet" class="reveal flex flex-col justify-between p-7">
+        <div>
+          <Tag kind="pattern">Cards</Tag>
+          <h3 class="mt-5 text-h3 font-medium">Glow on hover, marks for structure</h3>
+          <p class="mt-3 text-[0.9375rem] leading-relaxed text-fg-muted">
+            Cards take an optional category glow and registration marks. Hover this one to see the glow.
+          </p>
+        </div>
+        <div class="mt-8 flex items-center gap-3 border-t border-line pt-5">
+          <span class="size-2 animate-pulse-dot rounded-full bg-accent"></span>
+          <span class="font-mono text-xs text-fg-subtle">status: passing</span>
+        </div>
+      </Card>
+    </div>
+  </section>
+
+  <!-- Signature visual -->
+  <section class="container-page pt-32">
+    <SectionHeading index="04" eyebrow="Signature visual">
+      The layered architecture, <span class="em-serif">as an object.</span>
+      <Fragment slot="lead">Specs sit on domain actions, which sit on page and API objects, which sit on drivers. Hover to pull the layers apart.</Fragment>
+    </SectionHeading>
+    <div class="reveal mx-auto mt-6 max-w-3xl">
+      <StackDiagram />
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  // Print each token's current value next to its swatch, and refresh when the theme changes.
+  const fill = () => {
+    const cs = getComputedStyle(document.documentElement);
+    document.querySelectorAll<HTMLElement>('[data-token-value]').forEach((el) => {
+      el.textContent = cs.getPropertyValue(`--${el.dataset.tokenValue}`).trim();
+    });
+  };
+  fill();
+  new MutationObserver(fill).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+</script>

@@ -1,0 +1,49 @@
+{
+  "name": "Karate",
+  "summary": "API testing in a Gherkin-style DSL on the JVM, with built-in mocks, parallel execution and reuse of tests for performance runs.",
+  "url": "https://github.com/karatelabs/karate",
+  "license": "MIT",
+  "layers": [
+    "api",
+    "doubles"
+  ],
+  "languages": [
+    "java"
+  ],
+  "baseline": 1,
+  "layerAdjust": {
+    "doubles": -2
+  },
+  "weights": {
+    "lang-ts": -6,
+    "lang-java": 2,
+    "lang-python": -6,
+    "lang-csharp": -6,
+    "bdd-stakeholders": 2,
+    "qa-team": 2,
+    "graphql": 1,
+    "devs-write-tests": -1
+  },
+  "strengths": [
+    "Tests read like specifications without Java glue code.",
+    "API tests, mocks and parallel runs in one tool.",
+    "Native JSON and GraphQL handling."
+  ],
+  "tradeoffs": [
+    "A custom DSL that developers may resist.",
+    "Complex logic is awkward compared to a general-purpose language.",
+    "Runs on the JVM even if your services do not."
+  ],
+  "principles": [
+    "architecture",
+    "test-doubles"
+  ],
+  "related": {
+    "tools": [],
+    "patterns": [
+      "scenario-context"
+    ],
+    "practices": [],
+    "guides": []
+  }
+}

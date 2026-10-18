@@ -1,0 +1,13 @@
+[
+  { "id": "unit-component", "name": "Unit & component", "order": 1, "description": "Fast checks of functions, classes and UI components in isolation.", "baseline": 2, "weights": {} },
+  { "id": "api", "name": "API & integration", "order": 2, "description": "Service behavior through its public interface, without a browser.", "baseline": 0, "weights": { "public-api": 3, "microservices": 3, "monolith": 2, "graphql": 2, "web-spa": 1, "web-ssr": 1, "event-driven": 1 } },
+  { "id": "contract", "name": "Contract", "order": 3, "description": "Agreements between consumers and providers, checked without a full environment.", "baseline": -3, "weights": { "microservices": 5, "public-api": 4, "event-driven": 1, "third-party": 1 } },
+  { "id": "ui-e2e", "name": "UI end-to-end", "order": 4, "description": "A thin layer of critical user journeys through a real browser.", "baseline": -2, "weights": { "web-spa": 4, "web-ssr": 4, "web-static": 3, "legacy-ui": 4, "cross-browser": 1 } },
+  { "id": "mobile", "name": "Mobile UI", "order": 5, "description": "Journeys through the native iOS and Android app.", "baseline": -5, "weights": { "mobile-native": 8 } },
+  { "id": "doubles", "name": "Mocks & virtualization", "order": 6, "description": "Stand-ins for third-party and unstable dependencies.", "baseline": -1, "weights": { "third-party": 3, "microservices": 2, "web-spa": 1, "fast-feedback": 1 } },
+  { "id": "environments", "name": "Ephemeral environments", "order": 7, "description": "Real dependencies started per test run, so tests never share state.", "baseline": -2, "weights": { "stateful-backend": 4, "microservices": 2, "event-driven": 2 } },
+  { "id": "test-data", "name": "Test data", "order": 8, "description": "Synthetic, reproducible data created per test.", "baseline": 1, "weights": { "stateful-backend": 1, "large-suite": 1 } },
+  { "id": "a11y", "name": "Accessibility", "order": 9, "description": "Automated accessibility rules in the same suite.", "baseline": -3, "weights": { "a11y": 6 } },
+  { "id": "performance", "name": "Performance", "order": 10, "description": "Load and performance budgets checked in CI.", "baseline": -3, "weights": { "performance": 6 } },
+  { "id": "reporting", "name": "Reporting", "order": 11, "description": "Reports with steps, attachments and history.", "baseline": -2, "weights": { "reporting": 4, "large-suite": 2, "qa-team": 1 } }
+]

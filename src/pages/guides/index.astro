@@ -1,0 +1,20 @@
+---
+import CatalogPage from '../../components/site/CatalogPage.astro';
+import { getGuides } from '../../data/content';
+
+const entries = (await getGuides()).map((g) => ({
+  kind: 'guide' as const,
+  id: g.id,
+  title: g.data.title,
+  summary: g.data.summary,
+  principles: g.data.principles,
+  meta: `${g.data.readingMinutes} min read`,
+}));
+---
+
+<CatalogPage
+  eyebrow="Guides"
+  title={`When, why and how, <span class="em-serif">in depth.</span>`}
+  lead="Longer guides for the decisions that shape a test architecture, with the trade-offs spelled out."
+  entries={entries}
+/>

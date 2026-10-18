@@ -1,0 +1,42 @@
+{
+  "name": "Mock Service Worker",
+  "summary": "API mocking that intercepts requests at the network level in the browser and in Node.js, so the same handlers serve tests and development.",
+  "url": "https://mswjs.io",
+  "license": "MIT",
+  "layers": [
+    "doubles"
+  ],
+  "languages": [
+    "ts"
+  ],
+  "baseline": 1,
+  "weights": {
+    "lang-ts": 3,
+    "lang-java": -6,
+    "lang-python": -6,
+    "lang-csharp": -6,
+    "web-spa": 3,
+    "devs-write-tests": 1,
+    "fast-feedback": 1
+  },
+  "strengths": [
+    "Application code makes real requests; nothing is patched.",
+    "Handlers are shared between unit tests, component tests and local development.",
+    "Supports REST, GraphQL and WebSocket."
+  ],
+  "tradeoffs": [
+    "JavaScript and TypeScript only.",
+    "Mocks the network for the app under test, not for other services."
+  ],
+  "principles": [
+    "test-doubles"
+  ],
+  "related": {
+    "tools": [
+      "vitest"
+    ],
+    "patterns": [],
+    "practices": [],
+    "guides": []
+  }
+}

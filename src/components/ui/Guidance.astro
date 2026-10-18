@@ -1,0 +1,50 @@
+---
+/** The when / why / how block shared by patterns, practices and guides. */
+import Callout from './Callout.astro';
+
+interface Props {
+  when: string[];
+  why: string[];
+  how: string[];
+  caution?: string[];
+}
+
+const { when, why, how, caution = [] } = Astro.props;
+const blocks = [
+  { kind: 'when' as const, items: when },
+  { kind: 'why' as const, items: why },
+  { kind: 'how' as const, items: how },
+];
+---
+
+<div class="grid gap-4 lg:grid-cols-3">
+  {
+    blocks.map((b) => (
+      <Callout kind={b.kind}>
+        <ul class="space-y-3">
+          {b.items.map((i, n) => (
+            <li class="flex gap-3">
+              {b.kind === 'how' ? (
+                <span class="mt-[0.2em] w-4 shrink-0 font-mono text-xs text-cyan-ink" aria-hidden="true">
+                  {n + 1}
+                </span>
+              ) : (
+                <span class="mt-[0.6em] size-1 shrink-0 rounded-full bg-fg-subtle" aria-hidden="true" />
+              )}
+              <span>{i}</span>
+            </li>
+          ))}
+        </ul>
+      </Callout>
+    ))
+  }
+</div>
+{
+  caution.length > 0 && (
+    <Callout kind="caution" class="mt-4">
+      {caution.map((c) => (
+        <p>{c}</p>
+      ))}
+    </Callout>
+  )
+}

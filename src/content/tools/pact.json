@@ -1,0 +1,52 @@
+{
+  "name": "Pact",
+  "summary": "Consumer-driven contract testing: consumers record their expectations as pacts, and providers verify them in their own CI.",
+  "url": "https://pact.io",
+  "license": "MIT (most languages), Apache-2.0 (JVM)",
+  "layers": [
+    "contract"
+  ],
+  "languages": [
+    "ts",
+    "java",
+    "python",
+    "csharp",
+    "go"
+  ],
+  "baseline": 3,
+  "weights": {
+    "lang-ts": 2,
+    "lang-java": 2,
+    "lang-python": 2,
+    "lang-csharp": 2,
+    "microservices": 3,
+    "event-driven": 1,
+    "public-api": -2
+  },
+  "strengths": [
+    "Catches breaking API changes without a shared end-to-end environment.",
+    "Supports HTTP and message-based interactions.",
+    "A broker shows which versions are safe to deploy together."
+  ],
+  "tradeoffs": [
+    "Needs buy-in from both consumer and provider teams.",
+    "A poor fit for public APIs where you do not know the consumers.",
+    "Contracts do not prove that a full user journey works."
+  ],
+  "principles": [
+    "test-doubles",
+    "foundations"
+  ],
+  "related": {
+    "tools": [],
+    "patterns": [
+      "api-client"
+    ],
+    "practices": [
+      "ephemeral-environments"
+    ],
+    "guides": [
+      "contract-testing-microservices"
+    ]
+  }
+}

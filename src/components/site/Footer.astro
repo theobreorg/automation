@@ -1,0 +1,40 @@
+---
+import Logo from './Logo.astro';
+import { site, href } from '../../config/site';
+
+const groups = [
+  { title: 'Compose', links: [{ label: 'Stack Composer', href: '/composer' }, { label: 'Principles', href: '/principles' }, { label: 'Guides', href: '/guides' }] },
+  { title: 'Explore', links: [{ label: 'Tools', href: '/tools' }, { label: 'Patterns', href: '/patterns' }, { label: 'Practices', href: '/practices' }] },
+  { title: 'Project', links: [{ label: 'Design system', href: '/design' }, { label: 'Source', href: site.repo }] },
+];
+const year = new Date().getFullYear();
+---
+
+<footer class="relative mt-32 border-t border-line">
+  <div class="container-page grid gap-12 py-16 sm:grid-cols-3 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
+    <div class="max-w-sm sm:col-span-3 md:col-span-1">
+      <Logo />
+      <p class="mt-4 text-sm leading-relaxed text-fg-muted">{site.description}</p>
+    </div>
+    {
+      groups.map((g) => (
+        <div>
+          <p class="label-mono text-fg-subtle">{g.title}</p>
+          <ul class="mt-5 space-y-3">
+            {g.links.map((l) => (
+              <li>
+                <a href={href(l.href)} class="text-sm text-fg-muted transition hover:text-fg">
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+  <div class="container-page flex flex-col gap-3 border-t border-line py-6 text-xs text-fg-subtle sm:flex-row sm:items-center sm:justify-between">
+    <p>© {year} {site.name}</p>
+    <p class="label-mono">Built for test automation architects</p>
+  </div>
+</footer>

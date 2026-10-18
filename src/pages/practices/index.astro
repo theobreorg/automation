@@ -1,0 +1,15 @@
+---
+import CatalogPage from '../../components/site/CatalogPage.astro';
+import { getAllEntries, getPrinciples } from '../../data/content';
+
+const principles = await getPrinciples();
+const title = (id: string) => principles.find((p) => p.data.id === id)?.data.title;
+const entries = (await getAllEntries()).filter((e) => e.kind === 'practice').map((e) => ({ ...e, meta: title(e.principles[0]) }));
+---
+
+<CatalogPage
+  eyebrow="Practices"
+  title={`The habits that make tests <span class="em-serif">fast and trusted.</span>`}
+  lead="Isolation, waiting on signals, resilient selectors, API setup, parallel runs and flake management, each with when, why and how."
+  entries={entries}
+/>

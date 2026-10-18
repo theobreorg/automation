@@ -1,0 +1,51 @@
+{
+  "name": "WebdriverIO",
+  "summary": "A Node.js automation framework on the WebDriver and WebDriver BiDi protocols that drives browsers and, through Appium, native mobile apps.",
+  "url": "https://webdriver.io",
+  "license": "MIT",
+  "layers": [
+    "ui-e2e",
+    "mobile"
+  ],
+  "languages": [
+    "ts"
+  ],
+  "baseline": 1,
+  "weights": {
+    "lang-ts": 2,
+    "lang-java": -6,
+    "lang-python": -6,
+    "lang-csharp": -6,
+    "cross-browser": 2,
+    "legacy-ui": 2,
+    "mobile-native": 2,
+    "bdd-stakeholders": 1,
+    "qa-team": 1
+  },
+  "strengths": [
+    "One TypeScript framework for web and native mobile (via Appium).",
+    "Standards-based protocols work with every major browser and cloud grid.",
+    "Rich plugin ecosystem: Cucumber, Allure, visual and accessibility services."
+  ],
+  "tradeoffs": [
+    "JavaScript and TypeScript only.",
+    "More configuration than Playwright or Cypress before the first test runs.",
+    "Real-device and grid runs are slower than local browser automation."
+  ],
+  "principles": [
+    "parallelism",
+    "architecture"
+  ],
+  "related": {
+    "tools": [
+      "appium",
+      "allure"
+    ],
+    "patterns": [
+      "page-object",
+      "strategy-pattern"
+    ],
+    "practices": [],
+    "guides": []
+  }
+}

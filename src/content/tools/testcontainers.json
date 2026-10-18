@@ -1,0 +1,48 @@
+{
+  "name": "Testcontainers",
+  "summary": "Throwaway Docker containers for databases, brokers and services, started from test code and removed when the tests finish.",
+  "url": "https://testcontainers.com",
+  "license": "MIT",
+  "layers": [
+    "environments"
+  ],
+  "languages": [
+    "java",
+    "ts",
+    "python",
+    "csharp",
+    "go"
+  ],
+  "baseline": 3,
+  "weights": {
+    "lang-ts": 2,
+    "lang-java": 2,
+    "lang-python": 2,
+    "lang-csharp": 2,
+    "stateful-backend": 3,
+    "microservices": 2,
+    "event-driven": 2
+  },
+  "strengths": [
+    "Real dependencies instead of in-memory fakes.",
+    "Every run gets clean state, so tests never fight over data.",
+    "Modules for Postgres, Kafka, Redis, LocalStack and many more."
+  ],
+  "tradeoffs": [
+    "Needs Docker on developer machines and CI runners.",
+    "Container start-up adds seconds per suite unless reused."
+  ],
+  "principles": [
+    "isolation",
+    "parallelism"
+  ],
+  "related": {
+    "tools": [],
+    "patterns": [],
+    "practices": [
+      "ephemeral-environments",
+      "test-isolation"
+    ],
+    "guides": []
+  }
+}

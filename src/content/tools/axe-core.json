@@ -1,0 +1,39 @@
+{
+  "name": "axe-core",
+  "summary": "An accessibility rules engine with integrations for Playwright, Cypress, Selenium and WebdriverIO.",
+  "url": "https://github.com/dequelabs/axe-core",
+  "license": "MPL-2.0",
+  "layers": [
+    "a11y"
+  ],
+  "languages": [
+    "any"
+  ],
+  "baseline": 3,
+  "weights": {
+    "web-spa": 1,
+    "web-ssr": 1,
+    "web-static": 1
+  },
+  "strengths": [
+    "Runs inside your existing UI tests.",
+    "Low false-positive rate by design.",
+    "Integrations for every major runner and language."
+  ],
+  "tradeoffs": [
+    "Automated rules catch only part of accessibility issues; manual testing is still needed."
+  ],
+  "principles": [
+    "assertions"
+  ],
+  "related": {
+    "tools": [
+      "playwright",
+      "cypress",
+      "selenium"
+    ],
+    "patterns": [],
+    "practices": [],
+    "guides": []
+  }
+}

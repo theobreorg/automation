@@ -1,0 +1,45 @@
+{
+  "name": "REST Assured",
+  "summary": "A Java DSL for testing REST services with given-when-then syntax, JSON and XML path assertions and schema validation.",
+  "url": "https://rest-assured.io",
+  "license": "Apache-2.0",
+  "layers": [
+    "api"
+  ],
+  "languages": [
+    "java"
+  ],
+  "baseline": 1,
+  "weights": {
+    "lang-ts": -6,
+    "lang-java": 4,
+    "lang-python": -6,
+    "lang-csharp": -6,
+    "microservices": 1,
+    "monolith": 1
+  },
+  "strengths": [
+    "Readable given-when-then DSL that fits JUnit or TestNG.",
+    "JSON Schema validation and rich path assertions.",
+    "Mature and widely known in Java teams."
+  ],
+  "tradeoffs": [
+    "Java and Kotlin only.",
+    "No built-in mocking or contract features; pair it with WireMock or Pact."
+  ],
+  "principles": [
+    "assertions",
+    "architecture"
+  ],
+  "related": {
+    "tools": [
+      "junit5",
+      "wiremock"
+    ],
+    "patterns": [
+      "api-client"
+    ],
+    "practices": [],
+    "guides": []
+  }
+}

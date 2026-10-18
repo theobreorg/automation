@@ -1,0 +1,42 @@
+{
+  "name": "Vitest",
+  "summary": "A fast unit and component test runner for TypeScript and JavaScript, built on Vite with a Jest-compatible API.",
+  "url": "https://vitest.dev",
+  "license": "MIT",
+  "layers": [
+    "unit-component"
+  ],
+  "languages": [
+    "ts"
+  ],
+  "baseline": 2,
+  "weights": {
+    "lang-ts": 4,
+    "lang-java": -6,
+    "lang-python": -6,
+    "lang-csharp": -6,
+    "web-spa": 2,
+    "fast-feedback": 2,
+    "devs-write-tests": 1
+  },
+  "strengths": [
+    "Very fast watch mode that reuses the Vite pipeline.",
+    "Jest-compatible API makes migration easy.",
+    "Browser mode runs component tests in a real browser."
+  ],
+  "tradeoffs": [
+    "JavaScript and TypeScript only.",
+    "Younger than Jest, so some niche plugins are missing."
+  ],
+  "principles": [
+    "foundations"
+  ],
+  "related": {
+    "tools": [
+      "msw"
+    ],
+    "patterns": [],
+    "practices": [],
+    "guides": []
+  }
+}

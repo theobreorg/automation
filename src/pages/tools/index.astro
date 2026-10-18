@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/ui/PageHeader.astro';
+import EntryCard from '../../components/ui/EntryCard.astro';
+import { getLayers, getTools, languageLabels } from '../../data/content';
+
+const [layers, tools] = await Promise.all([getLayers(), getTools()]);
+const groups = layers
+  .map((layer) => ({
+    layer,
+    tools: tools.filter((t) => t.data.layers.includes(layer.id)),
+  }))
+  .filter((g) => g.tools.length > 0);
+---
+
+<BaseLayout title="Tools" description="Test automation tools mapped to the layers of a test architecture.">
+  <PageHeader eyebrow="Tools" crumbs={[{ label: 'Home', href: '/' }]}>
+    <h1 class="mt-8 max-w-4xl text-h1 font-medium text-balance">
+      Every tool, <span class="em-serif">in the layer it serves.</span>
+    </h1>
+    <p class="mt-5 max-w-2xl text-lg leading-relaxed text-pretty text-fg-muted">
+      {tools.length} tools across {groups.length} layers of a test architecture. A tool that serves more than one layer appears in each.
+    </p>
+    <nav aria-label="Layers" class="mt-8 flex flex-wrap gap-2">
+      {
+        groups.map((g) => (
+          <a
+            href={`#${g.layer.id}`}
+            class="inline-flex h-8 items-center rounded-full border border-line bg-surface/60 px-3.5 text-xs text-fg-muted backdrop-blur transition hover:border-line-strong hover:text-fg"
+          >
+            {g.layer.data.name}
+          </a>
+        ))
+      }
+    </nav>
+  </PageHeader>
+
+  <div class="container-page space-y-20">
+    {
+      groups.map((g, i) => (
+        <section id={g.layer.id} class="scroll-mt-24">
+          <div class="grid gap-3 border-t border-line pt-8 md:grid-cols-[16rem_1fr] md:gap-10">
+            <div>
+              <p class="font-mono text-xs text-accent-ink">{String(i + 1).padStart(2, '0')}</p>
+              <h2 class="mt-3 text-h3 font-medium">{g.layer.data.name}</h2>
+              <p class="mt-2 text-sm leading-relaxed text-fg-muted">{g.layer.data.description}</p>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-2">
+              {g.tools.map((t) => (
+                <EntryCard
+                  entry={{ kind: 'tool', id: t.id, title: t.data.name, summary: t.data.summary, principles: t.data.principles }}
+                  meta={t.data.languages.map((l) => languageLabels[l]).join(' · ')}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
+      ))
+    }
+  </div>
+</BaseLayout>

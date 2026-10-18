@@ -1,0 +1,68 @@
+[
+  {
+    "id": "app",
+    "order": 1,
+    "title": "Application",
+    "prompt": "What are you testing?",
+    "traits": [
+      { "id": "web-static", "label": "Static or content site", "hint": "Mostly pages and forms, little client-side state" },
+      { "id": "web-spa", "label": "Single-page web app", "hint": "React, Vue, Angular, Svelte" },
+      { "id": "web-ssr", "label": "Server-rendered web app", "hint": "Next.js, Rails, Django, ASP.NET" },
+      { "id": "mobile-native", "label": "Native mobile app", "hint": "iOS, Android or cross-platform native" },
+      { "id": "public-api", "label": "Public or partner API", "hint": "Consumers you don't control" },
+      { "id": "legacy-ui", "label": "Legacy web UI", "hint": "Iframes, old frameworks, few test IDs" }
+    ]
+  },
+  {
+    "id": "architecture",
+    "order": 2,
+    "title": "Architecture",
+    "prompt": "How is it built?",
+    "traits": [
+      { "id": "monolith", "label": "One deployable", "hint": "A monolith or a single backend" },
+      { "id": "microservices", "label": "Microservices", "hint": "Services deployed independently" },
+      { "id": "event-driven", "label": "Events and queues", "hint": "Kafka, RabbitMQ, SQS, async jobs" },
+      { "id": "graphql", "label": "GraphQL" },
+      { "id": "third-party", "label": "Third-party integrations", "hint": "Payments, identity, email, partner APIs" },
+      { "id": "stateful-backend", "label": "Databases you own", "hint": "Postgres, MySQL, Redis, Mongo" }
+    ]
+  },
+  {
+    "id": "language",
+    "order": 3,
+    "title": "Language",
+    "prompt": "Which languages will the tests be written in?",
+    "traits": [
+      { "id": "lang-ts", "label": "TypeScript / JavaScript" },
+      { "id": "lang-java", "label": "Java / Kotlin" },
+      { "id": "lang-python", "label": "Python" },
+      { "id": "lang-csharp", "label": "C# / .NET" }
+    ]
+  },
+  {
+    "id": "team",
+    "order": 4,
+    "title": "Team",
+    "prompt": "Who writes and reads the tests?",
+    "traits": [
+      { "id": "devs-write-tests", "label": "Developers write most tests" },
+      { "id": "qa-team", "label": "Dedicated test engineers" },
+      { "id": "bdd-stakeholders", "label": "Business stakeholders read the specs" }
+    ]
+  },
+  {
+    "id": "priorities",
+    "order": 5,
+    "title": "Priorities",
+    "prompt": "What matters most right now?",
+    "traits": [
+      { "id": "cross-browser", "label": "Cross-browser coverage", "hint": "Including Safari / WebKit" },
+      { "id": "fast-feedback", "label": "Fast feedback on every PR" },
+      { "id": "large-suite", "label": "A large UI suite", "hint": "Hundreds of end-to-end tests" },
+      { "id": "flaky-suite", "label": "Flaky tests today" },
+      { "id": "a11y", "label": "Accessibility compliance" },
+      { "id": "performance", "label": "Performance budgets" },
+      { "id": "reporting", "label": "Reports for stakeholders" }
+    ]
+  }
+]

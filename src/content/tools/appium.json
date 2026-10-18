@@ -1,0 +1,44 @@
+{
+  "name": "Appium",
+  "summary": "Cross-platform automation for native, hybrid and mobile web apps on iOS and Android through the WebDriver protocol.",
+  "url": "https://appium.io",
+  "license": "Apache-2.0",
+  "layers": [
+    "mobile"
+  ],
+  "languages": [
+    "any"
+  ],
+  "baseline": 2,
+  "weights": {
+    "qa-team": 1,
+    "cross-browser": 1,
+    "flaky-suite": -1,
+    "fast-feedback": -1
+  },
+  "strengths": [
+    "One API for iOS and Android, from any WebDriver client language.",
+    "Tests the real app binary without modifying it.",
+    "Supported by all major device clouds."
+  ],
+  "tradeoffs": [
+    "Slower than in-process frameworks such as Espresso or XCUITest.",
+    "Setup of drivers, simulators and signing takes real effort.",
+    "Needs careful synchronization to stay stable."
+  ],
+  "principles": [
+    "parallelism",
+    "reliability"
+  ],
+  "related": {
+    "tools": [
+      "webdriverio"
+    ],
+    "patterns": [
+      "page-object",
+      "strategy-pattern"
+    ],
+    "practices": [],
+    "guides": []
+  }
+}

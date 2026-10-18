@@ -1,0 +1,54 @@
+{
+  "name": "Cypress",
+  "summary": "A JavaScript end-to-end and component testing tool that runs inside the browser, known for its interactive runner and time-travel debugging.",
+  "url": "https://www.cypress.io",
+  "license": "MIT",
+  "layers": [
+    "ui-e2e"
+  ],
+  "languages": [
+    "ts"
+  ],
+  "baseline": 2,
+  "weights": {
+    "lang-ts": 3,
+    "lang-java": -6,
+    "lang-python": -6,
+    "lang-csharp": -6,
+    "web-spa": 3,
+    "devs-write-tests": 2,
+    "cross-browser": -1,
+    "large-suite": -1,
+    "legacy-ui": -1
+  },
+  "strengths": [
+    "Interactive runner with time-travel snapshots makes debugging fast.",
+    "Built-in retry-ability for queries and assertions.",
+    "Component testing for React, Vue, Angular and Svelte in the same tool.",
+    "Network stubbing with cy.intercept is simple and well documented."
+  ],
+  "tradeoffs": [
+    "JavaScript and TypeScript only.",
+    "Runs inside the browser, so multi-tab flows and some cross-origin flows need workarounds.",
+    "WebKit support is experimental.",
+    "Parallel runs and analytics are tied to the paid Cypress Cloud or third-party services."
+  ],
+  "principles": [
+    "synchronization",
+    "test-doubles"
+  ],
+  "related": {
+    "tools": [],
+    "patterns": [
+      "page-object",
+      "api-client"
+    ],
+    "practices": [
+      "signal-based-waiting",
+      "resilient-selectors"
+    ],
+    "guides": [
+      "scaling-ui-suites"
+    ]
+  }
+}

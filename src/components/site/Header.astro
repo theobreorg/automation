@@ -1,0 +1,72 @@
+---
+import Logo from './Logo.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import Button from '../ui/Button.astro';
+import { nav, href } from '../../config/site';
+
+const current = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-40 border-b border-line/0 transition-colors" data-header>
+  <div class="absolute inset-0 -z-10 bg-bg/70 backdrop-blur-xl [mask-image:linear-gradient(to_bottom,#000_70%,transparent)]"></div>
+  <div class="container-page flex h-16 items-center justify-between gap-6">
+    <Logo />
+    <nav aria-label="Main" class="hidden items-center gap-0.5 lg:flex">
+      {
+        nav.map((item) => {
+          const active = current.startsWith(href(item.href));
+          return (
+            <a
+              href={href(item.href)}
+              aria-current={active ? 'page' : undefined}
+              class:list={[
+                'rounded-full px-3 py-2 text-sm transition hover:bg-surface-2 hover:text-fg',
+                active ? 'text-fg' : 'text-fg-muted',
+              ]}
+            >
+              {item.label}
+            </a>
+          );
+        })
+      }
+    </nav>
+    <div class="flex items-center gap-2">
+      <ThemeToggle />
+      <span class="hidden sm:block"><Button href="/composer" size="sm">Compose a stack</Button></span>
+      <details class="relative lg:hidden" data-menu>
+        <summary
+          class="inline-flex size-9 cursor-pointer list-none items-center justify-center rounded-full border border-line text-fg-muted transition hover:border-line-strong hover:text-fg [&::-webkit-details-marker]:hidden"
+          aria-label="Menu"
+        >
+          <svg class="size-[18px]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <path d="M4 8h16M4 16h16" stroke-linecap="round"></path>
+          </svg>
+        </summary>
+        <nav
+          aria-label="Main"
+          class="absolute right-0 mt-2 w-56 rounded-2xl border border-line bg-surface p-2 shadow-card"
+        >
+          {
+            nav.map((item) => (
+              <a href={href(item.href)} class="block rounded-xl px-3 py-2.5 text-sm text-fg-muted transition hover:bg-surface-2 hover:text-fg">
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Close the mobile menu when clicking outside it.
+  document.addEventListener('click', (e) => {
+    const menu = document.querySelector<HTMLDetailsElement>('[data-menu]');
+    if (menu?.open && !menu.contains(e.target as Node)) menu.open = false;
+  });
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const onScroll = () => header?.classList.toggle('border-line', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>
