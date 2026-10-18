@@ -220,8 +220,8 @@ const code = `export const playwright = defineTool({
       <Callout kind="caution" title="Not a full journey" class="reveal"><p>Contracts do not prove the full journey works. Keep a thin smoke suite.</p></Callout>
     </div>
 
-    <div class="mt-4 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-      <div class="reveal">
+    <div class="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+      <div class="reveal min-w-0">
         <CodeBlock filename="data/tools/playwright.ts" code={code} />
       </div>
       <Card glow="violet" class="reveal flex flex-col justify-between p-7">
