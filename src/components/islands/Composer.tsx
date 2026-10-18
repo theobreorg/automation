@@ -47,11 +47,13 @@ interface Props {
   presets: ComposerPreset[];
   /** Site base path, e.g. "/automation". */
   base: string;
+  /** Appended to every link, e.g. "/index.html" for hosts that don't resolve directory indexes. */
+  hrefSuffix?: string;
 }
 
 const pad = (n: number) => String(n).padStart(2, '0');
 
-export default function Composer({ questions, layers, tools, patterns, practices, presets, base }: Props) {
+export default function Composer({ questions, layers, tools, patterns, practices, presets, base, hrefSuffix = '' }: Props) {
   const [selected, setSelected] = useState<Set<string>>(() => new Set(presets[0]?.traits ?? []));
   const [presetId, setPresetId] = useState<string | null>(presets[0]?.id ?? null);
   const [step, setStep] = useState(0);
@@ -61,7 +63,7 @@ export default function Composer({ questions, layers, tools, patterns, practices
     [questions],
   );
   const result = useMemo(() => composeStack({ layers, tools, patterns, practices }, selected), [layers, tools, patterns, practices, selected]);
-  const link = (path: string) => `${base.replace(/\/$/, '')}${path}`;
+  const link = (path: string) => `${base.replace(/\/$/, '')}${path}${hrefSuffix}`;
 
   const toggle = (id: string) => {
     setPresetId(null);
