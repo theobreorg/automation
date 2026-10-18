@@ -1,0 +1,72 @@
+---
+/** Detail page body for patterns, practices and guides. */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../ui/PageHeader.astro';
+import Guidance from '../ui/Guidance.astro';
+import Tag from '../ui/Tag.astro';
+import EntryCard from '../ui/EntryCard.astro';
+import PrincipleLinks from '../ui/PrincipleLinks.astro';
+import { kindMeta, resolveRelated, type Kind } from '../../data/content';
+import type { PrincipleId } from '../../lib/schemas';
+
+interface Props {
+  kind: Exclude<Kind, 'tool'>;
+  data: {
+    title: string;
+    summary: string;
+    principles: PrincipleId[];
+    when: string[];
+    why: string[];
+    how: string[];
+    caution: string[];
+    related: { tools: string[]; patterns: string[]; practices: string[]; guides: string[] };
+    readingMinutes?: number;
+  };
+  hasBody: boolean;
+}
+
+const { kind, data, hasBody } = Astro.props;
+const meta = kindMeta[kind];
+const related = await resolveRelated(data.related);
+---
+
+<BaseLayout title={data.title} description={data.summary}>
+  <PageHeader eyebrow={data.title} crumbs={[{ label: meta.plural, href: meta.path }]}>
+    <div class="mt-8 flex flex-wrap items-center gap-3">
+      <Tag kind={kind}>{meta.label}</Tag>
+      {data.readingMinutes && <span class="label-mono text-fg-subtle">{data.readingMinutes} min read</span>}
+    </div>
+    <h1 class="mt-5 max-w-4xl text-h1 font-medium text-balance">{data.title}</h1>
+    <p class="mt-5 max-w-2xl text-lg leading-relaxed text-pretty text-fg-muted">{data.summary}</p>
+    <div class="mt-8">
+      <PrincipleLinks ids={data.principles} />
+    </div>
+  </PageHeader>
+
+  <section class="container-page">
+    <Guidance when={data.when} why={data.why} how={data.how} caution={data.caution} />
+  </section>
+
+  {
+    hasBody && (
+      <section class="container-page pt-16">
+        <div class="prose">
+          <slot />
+        </div>
+      </section>
+    )
+  }
+
+  {
+    related.length > 0 && (
+      <section class="container-page pt-20">
+        <p class="label-mono text-fg-subtle">Related</p>
+        <div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {related.map((r) => (
+            <EntryCard entry={r} />
+          ))}
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>

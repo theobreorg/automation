@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../ui/PageHeader.astro';
+import EntryCard from '../ui/EntryCard.astro';
+import type { EntryRef } from '../../data/content';
+
+interface Props {
+  title: string;
+  eyebrow: string;
+  lead: string;
+  entries: (EntryRef & { meta?: string })[];
+}
+
+const { title, eyebrow, lead, entries } = Astro.props;
+---
+
+<BaseLayout title={eyebrow} description={lead}>
+  <PageHeader eyebrow={eyebrow} crumbs={[{ label: 'Home', href: '/' }]}>
+    <h1 class="mt-8 max-w-4xl text-h1 font-medium text-balance" set:html={title} />
+    <p class="mt-5 max-w-2xl text-lg leading-relaxed text-pretty text-fg-muted">{lead}</p>
+    <p class="label-mono mt-8 text-fg-subtle">{entries.length} entries</p>
+  </PageHeader>
+  <section class="container-page">
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {entries.map((e) => <EntryCard entry={e} meta={e.meta} />)}
+    </div>
+  </section>
+</BaseLayout>

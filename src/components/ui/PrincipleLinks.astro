@@ -1,0 +1,28 @@
+---
+import type { PrincipleId } from '../../lib/schemas';
+import { getPrinciples } from '../../data/content';
+import { href } from '../../config/site';
+
+interface Props {
+  ids: PrincipleId[];
+}
+
+const { ids } = Astro.props;
+const principles = (await getPrinciples()).filter((p) => ids.includes(p.data.id));
+---
+
+<ul class="flex flex-wrap gap-2" aria-label="Principles">
+  {
+    principles.map((p) => (
+      <li>
+        <a
+          href={href(`/principles#${p.data.id}`)}
+          class="inline-flex h-7 items-center gap-2 rounded-full border border-line bg-surface px-3 text-xs text-fg-muted transition hover:border-line-strong hover:text-fg"
+        >
+          <span class="font-mono text-[0.625rem] text-fg-subtle">{String(p.data.number).padStart(2, '0')}</span>
+          {p.data.title}
+        </a>
+      </li>
+    ))
+  }
+</ul>

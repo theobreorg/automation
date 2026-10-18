@@ -1,0 +1,48 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/ui/PageHeader.astro';
+import Composer from '../components/islands/Composer';
+import { getLayers, getPatterns, getPractices, getPresets, getQuestions, getTools } from '../data/content';
+
+const [questions, layers, tools, patterns, practices, presets] = await Promise.all([
+  getQuestions(),
+  getLayers(),
+  getTools(),
+  getPatterns(),
+  getPractices(),
+  getPresets(),
+]);
+
+// Pass the island only what scoring and display need.
+const props = {
+  questions: questions.map((q) => ({ id: q.id, title: q.data.title, prompt: q.data.prompt, traits: q.data.traits })),
+  layers: layers.map((l) => l.data),
+  tools: tools.map((t) => ({
+    id: t.id,
+    name: t.data.name,
+    layers: t.data.layers,
+    baseline: t.data.baseline,
+    layerAdjust: t.data.layerAdjust,
+    weights: t.data.weights,
+    tradeoffs: t.data.tradeoffs,
+  })),
+  patterns: patterns.map((p) => ({ id: p.id, title: p.data.title, summary: p.data.summary, baseline: p.data.baseline, weights: p.data.weights })),
+  practices: practices.map((p) => ({ id: p.id, title: p.data.title, summary: p.data.summary, baseline: p.data.baseline, weights: p.data.weights })),
+  presets: presets.map((p) => ({ id: p.id, label: p.data.label, traits: p.data.traits })),
+  base: import.meta.env.BASE_URL,
+};
+---
+
+<BaseLayout title="Stack Composer" description="Describe your application under test and get a scored test automation stack, with runners-up and trade-offs.">
+  <PageHeader eyebrow="Stack Composer" crumbs={[{ label: 'Home', href: '/' }]}>
+    <h1 class="mt-8 max-w-4xl text-h1 font-medium text-balance">
+      Describe your app. <span class="em-serif text-aurora pr-[0.08em]">Get a stack.</span>
+    </h1>
+    <p class="mt-5 max-w-2xl text-lg leading-relaxed text-pretty text-fg-muted">
+      Answer five questions. Every tool, pattern and practice earns points for the traits you pick, and the stack updates as you go. Open any layer to see why it won.
+    </p>
+  </PageHeader>
+  <section class="container-page">
+    <Composer client:load {...props} />
+  </section>
+</BaseLayout>

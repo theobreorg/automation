@@ -1,0 +1,40 @@
+{
+  "name": "Maestro",
+  "summary": "Mobile UI testing with flows written in YAML, built-in tolerance for delays and a fast edit-and-rerun loop.",
+  "url": "https://github.com/mobile-dev-inc/maestro",
+  "license": "Apache-2.0",
+  "layers": [
+    "mobile"
+  ],
+  "languages": [
+    "any"
+  ],
+  "baseline": 1,
+  "weights": {
+    "fast-feedback": 2,
+    "devs-write-tests": 1,
+    "qa-team": 1,
+    "large-suite": -1
+  },
+  "strengths": [
+    "Flows are short YAML files that anyone on the team can read.",
+    "Waits for the UI to settle automatically.",
+    "Very quick to get the first journey running."
+  ],
+  "tradeoffs": [
+    "YAML flows have limited abstraction for large suites.",
+    "Less control over low-level device behavior than Appium."
+  ],
+  "principles": [
+    "synchronization",
+    "foundations"
+  ],
+  "related": {
+    "tools": [],
+    "patterns": [],
+    "practices": [
+      "signal-based-waiting"
+    ],
+    "guides": []
+  }
+}

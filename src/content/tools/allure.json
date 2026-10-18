@@ -1,0 +1,41 @@
+{
+  "name": "Allure Report",
+  "summary": "Test reports with steps, attachments, history and flaky-test markers, with adapters for most test frameworks.",
+  "url": "https://allurereport.org",
+  "license": "Apache-2.0",
+  "layers": [
+    "reporting"
+  ],
+  "languages": [
+    "any"
+  ],
+  "baseline": 3,
+  "weights": {
+    "large-suite": 1,
+    "qa-team": 1,
+    "reporting": 2,
+    "flaky-suite": 1
+  },
+  "strengths": [
+    "Step-level detail with screenshots, traces and logs attached.",
+    "History and trends across runs show flaky tests.",
+    "Adapters for JUnit, pytest, Playwright, Cypress, WebdriverIO and more."
+  ],
+  "tradeoffs": [
+    "Another tool to host and keep in CI.",
+    "Rich reports depend on teams annotating steps."
+  ],
+  "principles": [
+    "observability",
+    "reliability"
+  ],
+  "related": {
+    "tools": [],
+    "patterns": [],
+    "practices": [
+      "failure-artifacts",
+      "flake-management"
+    ],
+    "guides": []
+  }
+}

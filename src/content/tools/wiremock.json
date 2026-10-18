@@ -1,0 +1,40 @@
+{
+  "name": "WireMock",
+  "summary": "HTTP service virtualization that runs embedded in the JVM or standalone in Docker, with stubbing, recording and fault injection.",
+  "url": "https://wiremock.org",
+  "license": "Apache-2.0",
+  "layers": [
+    "doubles"
+  ],
+  "languages": [
+    "any"
+  ],
+  "baseline": 2,
+  "weights": {
+    "third-party": 3,
+    "microservices": 2,
+    "lang-java": 2
+  },
+  "strengths": [
+    "Stubs any HTTP dependency, from any test language, when run standalone.",
+    "Record and playback captures real traffic as stubs.",
+    "Simulates latency and faults deterministically."
+  ],
+  "tradeoffs": [
+    "Stubs drift from the real service unless backed by contracts.",
+    "Stateful scenarios get complex quickly."
+  ],
+  "principles": [
+    "test-doubles"
+  ],
+  "related": {
+    "tools": [
+      "pact"
+    ],
+    "patterns": [],
+    "practices": [
+      "ephemeral-environments"
+    ],
+    "guides": []
+  }
+}

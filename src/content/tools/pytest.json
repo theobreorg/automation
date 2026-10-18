@@ -1,0 +1,48 @@
+{
+  "name": "pytest",
+  "summary": "Python's de facto test framework, with plain assert statements, powerful fixtures and a large plugin ecosystem.",
+  "url": "https://docs.pytest.org",
+  "license": "MIT",
+  "layers": [
+    "unit-component",
+    "api"
+  ],
+  "languages": [
+    "python"
+  ],
+  "baseline": 2,
+  "layerAdjust": {
+    "api": -1
+  },
+  "weights": {
+    "lang-ts": -6,
+    "lang-java": -6,
+    "lang-python": 4,
+    "lang-csharp": -6,
+    "fast-feedback": 1,
+    "devs-write-tests": 1
+  },
+  "strengths": [
+    "Fixtures with explicit scopes make setup and teardown composable.",
+    "Parametrization turns tables of data into tests.",
+    "Plugins for parallelism (pytest-xdist), HTTP, Playwright and reporting."
+  ],
+  "tradeoffs": [
+    "Python only.",
+    "Fixture-heavy suites can become hard to trace without conventions."
+  ],
+  "principles": [
+    "isolation",
+    "test-data",
+    "maintainability"
+  ],
+  "related": {
+    "tools": [],
+    "patterns": [
+      "fixture-lifecycle",
+      "test-data-builder"
+    ],
+    "practices": [],
+    "guides": []
+  }
+}

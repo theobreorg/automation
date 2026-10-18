@@ -1,0 +1,18 @@
+---
+import { render } from 'astro:content';
+import GuidanceEntryPage from '../../components/site/GuidanceEntryPage.astro';
+import { getPractices } from '../../data/content';
+
+export async function getStaticPaths() {
+  const entries = await getPractices();
+  return entries.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const hasBody = Boolean(entry.body?.trim());
+---
+
+<GuidanceEntryPage kind="practice" data={entry.data} hasBody={hasBody}>
+  <Content />
+</GuidanceEntryPage>

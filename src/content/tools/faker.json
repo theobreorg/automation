@@ -1,0 +1,46 @@
+{
+  "name": "Faker libraries",
+  "summary": "Realistic synthetic data generators (Faker.js, Python Faker, Datafaker, Bogus) with seedable randomness.",
+  "url": "https://fakerjs.dev",
+  "license": "MIT (Faker.js); varies by port",
+  "layers": [
+    "test-data"
+  ],
+  "languages": [
+    "ts",
+    "java",
+    "python",
+    "csharp"
+  ],
+  "baseline": 2,
+  "weights": {
+    "lang-ts": 2,
+    "lang-java": 2,
+    "lang-python": 2,
+    "lang-csharp": 2,
+    "large-suite": 1
+  },
+  "strengths": [
+    "Unique, realistic data per test avoids collisions in parallel runs.",
+    "Seeding makes a failing run reproducible.",
+    "Available in every major language."
+  ],
+  "tradeoffs": [
+    "Random data can hide edge cases unless you also test them explicitly.",
+    "Unseeded randomness makes failures hard to reproduce."
+  ],
+  "principles": [
+    "test-data",
+    "isolation"
+  ],
+  "related": {
+    "tools": [],
+    "patterns": [
+      "test-data-builder"
+    ],
+    "practices": [
+      "api-driven-setup"
+    ],
+    "guides": []
+  }
+}

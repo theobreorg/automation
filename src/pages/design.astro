@@ -10,7 +10,15 @@ import Callout from '../components/ui/Callout.astro';
 import CodeBlock from '../components/ui/CodeBlock.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import TraitPicker from '../components/islands/TraitPicker';
-import { sampleTraits } from '../content-preview/landing';
+
+const sampleTraits = [
+  { id: 'spa', label: 'Single-page app' },
+  { id: 'rest', label: 'REST APIs' },
+  { id: 'graphql', label: 'GraphQL' },
+  { id: 'microservices', label: 'Microservices' },
+  { id: 'events', label: 'Event-driven' },
+  { id: 'mobile', label: 'Mobile client' },
+];
 
 const surfaces = ['bg', 'bg-elev', 'surface', 'surface-2', 'line', 'line-strong'];
 const text = ['fg', 'fg-muted', 'fg-subtle'];
@@ -208,7 +216,7 @@ const code = `export const playwright = defineTool({
       <Card marks class="reveal p-7">
         <p class="label-mono text-fg-subtle">Trait picker · React island</p>
         <div class="mt-6">
-          <TraitPicker client:visible legend="What does your application look like?" traits={sampleTraits.slice(0, 6)} initial={['rest']} />
+          <TraitPicker client:visible legend="What does your application look like?" traits={sampleTraits} initial={['rest']} />
         </div>
       </Card>
     </div>

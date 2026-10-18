@@ -11,7 +11,9 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:4321/automation/. The living style guide is at `/automation/design`.
+Open http://localhost:4321/automation/. The Stack Composer is at `/automation/composer` and the living style guide at `/automation/design`.
+
+Content lives in `src/content/` and the scoring engine in `src/lib/scoring/`. See CLAUDE.md for how to add entries and tune weights.
 
 ## Scripts
 

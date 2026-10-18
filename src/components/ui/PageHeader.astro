@@ -1,0 +1,33 @@
+---
+import Aurora from '../site/Aurora.astro';
+import { href } from '../../config/site';
+
+interface Props {
+  eyebrow: string;
+  crumbs?: { label: string; href: string }[];
+}
+
+const { eyebrow, crumbs = [] } = Astro.props;
+---
+
+<section class="relative isolate">
+  <Aurora class="opacity-70" />
+  <div class="container-page pt-14 pb-12 md:pt-20 md:pb-14">
+    <nav aria-label="Breadcrumb" class="label-mono flex flex-wrap items-center gap-2 text-fg-subtle">
+      {
+        crumbs.map((c) => (
+          <>
+            <a href={href(c.href)} class="transition hover:text-fg">
+              {c.label}
+            </a>
+            <span aria-hidden="true">/</span>
+          </>
+        ))
+      }
+      <span class="text-accent-ink">{eyebrow}</span>
+    </nav>
+    <div class="animate-rise">
+      <slot />
+    </div>
+  </div>
+</section>

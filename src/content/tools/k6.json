@@ -1,0 +1,37 @@
+{
+  "name": "k6",
+  "summary": "Load and performance testing with scripts in JavaScript or TypeScript, thresholds as pass/fail criteria and a CLI that fits CI.",
+  "url": "https://k6.io",
+  "license": "AGPL-3.0",
+  "layers": [
+    "performance"
+  ],
+  "languages": [
+    "ts"
+  ],
+  "baseline": 3,
+  "weights": {
+    "lang-ts": 1,
+    "microservices": 1,
+    "fast-feedback": 1
+  },
+  "strengths": [
+    "Thresholds turn performance budgets into CI gates.",
+    "Scripts are code, reviewed and versioned with the app.",
+    "Efficient load generation from a single machine."
+  ],
+  "tradeoffs": [
+    "Scripts are JavaScript or TypeScript regardless of your app language.",
+    "Browser-level performance needs its separate browser module."
+  ],
+  "principles": [
+    "assertions",
+    "observability"
+  ],
+  "related": {
+    "tools": [],
+    "patterns": [],
+    "practices": [],
+    "guides": []
+  }
+}

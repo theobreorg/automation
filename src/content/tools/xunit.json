@@ -1,0 +1,42 @@
+{
+  "name": "xUnit.net",
+  "summary": "A widely used test framework for .NET, with a new class instance per test and fixtures for shared context.",
+  "url": "https://xunit.net",
+  "license": "Apache-2.0",
+  "layers": [
+    "unit-component"
+  ],
+  "languages": [
+    "csharp"
+  ],
+  "baseline": 2,
+  "weights": {
+    "lang-ts": -6,
+    "lang-java": -6,
+    "lang-python": -6,
+    "lang-csharp": 4,
+    "devs-write-tests": 1
+  },
+  "strengths": [
+    "A new test class instance per test encourages isolation.",
+    "Class and collection fixtures with constructor injection.",
+    "Runs tests in parallel across collections by default."
+  ],
+  "tradeoffs": [
+    ".NET only.",
+    "Its conventions differ from NUnit and MSTest, which can confuse mixed teams."
+  ],
+  "principles": [
+    "isolation",
+    "foundations"
+  ],
+  "related": {
+    "tools": [],
+    "patterns": [
+      "dependency-injection",
+      "fixture-lifecycle"
+    ],
+    "practices": [],
+    "guides": []
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "name": "Schemathesis",
+  "summary": "Property-based API testing generated from OpenAPI and GraphQL schemas, run as a CLI against any service.",
+  "url": "https://github.com/schemathesis/schemathesis",
+  "license": "MIT",
+  "layers": [
+    "contract"
+  ],
+  "languages": [
+    "any"
+  ],
+  "baseline": 1,
+  "weights": {
+    "public-api": 4,
+    "graphql": 1,
+    "microservices": 1
+  },
+  "strengths": [
+    "Generates thousands of requests from the schema, finding crashes and schema violations.",
+    "Works with any backend language through the CLI.",
+    "Keeps the published API specification honest."
+  ],
+  "tradeoffs": [
+    "Only as good as the schema it reads.",
+    "Finds broken behavior, not wrong business logic."
+  ],
+  "principles": [
+    "assertions",
+    "test-doubles"
+  ],
+  "related": {
+    "tools": [],
+    "patterns": [],
+    "practices": [],
+    "guides": [
+      "contract-testing-microservices"
+    ]
+  }
+}

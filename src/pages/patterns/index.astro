@@ -1,0 +1,15 @@
+---
+import CatalogPage from '../../components/site/CatalogPage.astro';
+import { getAllEntries, getPrinciples } from '../../data/content';
+
+const principles = await getPrinciples();
+const title = (id: string) => principles.find((p) => p.data.id === id)?.data.title;
+const entries = (await getAllEntries()).filter((e) => e.kind === 'pattern').map((e) => ({ ...e, meta: title(e.principles[0]) }));
+---
+
+<CatalogPage
+  eyebrow="Patterns"
+  title={`Design patterns that keep suites <span class="em-serif">readable as they grow.</span>`}
+  lead="Structural patterns for test code, from layered architecture and page objects to Screenplay, builders and dependency injection."
+  entries={entries}
+/>

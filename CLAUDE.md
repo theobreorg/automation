@@ -23,15 +23,24 @@ src/
   config/site.ts        product name, nav, href() helper that applies the base path
   styles/global.css     design tokens (both themes) and shared utilities
   layouts/              page shells
-  components/ui/        design-system primitives (Button, Tag, Card, Meter, Callout, …)
-  components/site/      site chrome and signature visuals (Header, Footer, StackDiagram, Aurora)
-  components/islands/   React islands (client-side interactivity only)
-  content-preview/      sample copy for the design preview; replaced by content collections in step 2
-  lib/                  framework-free TypeScript (scoring logic lands here in step 3)
+  components/ui/        design-system primitives (Button, Tag, Card, Meter, Callout, EntryCard, Guidance, …)
+  components/site/      site chrome, page templates and signature visuals (Header, StackDiagram, CatalogPage, …)
+  components/islands/   React islands (client-side interactivity only): Composer, TraitPicker, FitMeter
+  content/              all content: tools (JSON), patterns/practices/guides (Markdown), principles,
+                        composer questions, presets and layers (JSON)
+  content.config.ts     registers content collections using the schemas from lib/schemas.ts
+  data/content.ts       Astro-side helpers for reading collections (the only place pages call getCollection)
+  lib/schemas.ts        Zod schemas for all content (framework-free)
+  lib/scoring/          weighted scoring engine (framework-free, unit-tested)
   pages/                routes
 ```
 
-Planned: `src/content/` (Markdown/JSON content validated by schemas: tool, pattern, practice, guide) and `src/lib/scoring/` (weighted scoring, plain TypeScript, weights in data files).
+## Content and scoring
+
+- Add a tool: drop a JSON file in `src/content/tools/`. Add a pattern, practice or guide: a Markdown file whose frontmatter has `when`, `why` and `how` lists; the body is optional extra detail.
+- Scoring: every layer, tool, pattern and practice has a `baseline` and `weights` (trait id → points). Score = baseline + weights of the selected traits. Layers scoring above zero are included; the best tool per layer wins; patterns and practices need a score of 2 or more. Tools can shift their baseline per layer with `layerAdjust`.
+- Tune weights in the content files, never in code. `npm test` checks that every weight, preset and related link points at something that exists, and runs typical scenarios (`src/lib/scenarios.test.ts`) so tuning cannot silently break the main recommendations.
+- Traits are defined once, in `src/content/questions.json`.
 
 ## Design system rules
 

@@ -1,0 +1,70 @@
+{
+  "name": "Playwright",
+  "summary": "Cross-browser automation for Chromium, Firefox and WebKit, with auto-waiting, isolated browser contexts and a built-in test runner for TypeScript.",
+  "url": "https://playwright.dev",
+  "license": "Apache-2.0",
+  "layers": [
+    "ui-e2e",
+    "api"
+  ],
+  "languages": [
+    "ts",
+    "python",
+    "java",
+    "csharp"
+  ],
+  "baseline": 3,
+  "layerAdjust": {
+    "api": -4
+  },
+  "weights": {
+    "lang-ts": 3,
+    "lang-java": 2,
+    "lang-python": 2,
+    "lang-csharp": 2,
+    "cross-browser": 3,
+    "web-spa": 2,
+    "web-ssr": 2,
+    "fast-feedback": 2,
+    "large-suite": 2,
+    "flaky-suite": 2,
+    "legacy-ui": 1,
+    "devs-write-tests": 1
+  },
+  "strengths": [
+    "Auto-waiting actions and web-first assertions remove most explicit waits.",
+    "A fresh browser context per test makes isolation cheap.",
+    "Trace viewer records DOM snapshots, network and console for every step.",
+    "Parallel workers and sharding are built into the TypeScript runner.",
+    "The same API covers browser and HTTP tests (APIRequestContext)."
+  ],
+  "tradeoffs": [
+    "WebKit is not the same as testing real Safari on macOS or iOS.",
+    "The richest runner features (fixtures, sharding, UI mode) are TypeScript-first; other languages rely on their own test runners.",
+    "No native mobile app support; mobile web is emulated."
+  ],
+  "principles": [
+    "isolation",
+    "synchronization",
+    "parallelism",
+    "reliability",
+    "observability"
+  ],
+  "related": {
+    "tools": [],
+    "patterns": [
+      "page-object",
+      "fixture-lifecycle",
+      "layered-architecture"
+    ],
+    "practices": [
+      "signal-based-waiting",
+      "test-isolation",
+      "failure-artifacts",
+      "parallel-sharding"
+    ],
+    "guides": [
+      "scaling-ui-suites"
+    ]
+  }
+}

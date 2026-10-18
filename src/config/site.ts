@@ -15,8 +15,10 @@ export function href(path: string): string {
 }
 
 export const nav = [
-  { label: 'Composer', href: '/#composer' },
-  { label: 'Patterns', href: '/#explore' },
-  { label: 'Principles', href: '/#principles' },
-  { label: 'Design system', href: '/design' },
+  { label: 'Composer', href: '/composer' },
+  { label: 'Tools', href: '/tools' },
+  { label: 'Patterns', href: '/patterns' },
+  { label: 'Practices', href: '/practices' },
+  { label: 'Guides', href: '/guides' },
+  { label: 'Principles', href: '/principles' },
 ] as const;

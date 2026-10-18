@@ -8,8 +8,62 @@ import Tag from '../components/ui/Tag.astro';
 import Meter from '../components/ui/Meter.astro';
 import Callout from '../components/ui/Callout.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
-import TraitPicker from '../components/islands/TraitPicker';
-import { appShapes, sampleTraits, sampleResult, categories, principles } from '../content-preview/landing';
+import { composeStack } from '../lib/scoring';
+import { href } from '../config/site';
+import {
+  entryPath,
+  getAllEntries,
+  getLayers,
+  getPatterns,
+  getPractices,
+  getPresets,
+  getPrinciples,
+  getTools,
+  getTraitLabels,
+  kindMeta,
+  type Kind,
+} from '../data/content';
+
+const [layers, tools, patterns, practices, presets, principles, entries, traitLabels] = await Promise.all([
+  getLayers(),
+  getTools(),
+  getPatterns(),
+  getPractices(),
+  getPresets(),
+  getPrinciples(),
+  getAllEntries(),
+  getTraitLabels(),
+]);
+
+// The sample result on this page is the real engine's output for one of the Composer presets.
+const sample = presets.find((p) => p.id === 'java-microservices') ?? presets[0];
+const result = composeStack(
+  {
+    layers: layers.map((l) => l.data),
+    tools: tools.map((t) => ({ id: t.id, ...t.data })),
+    patterns: patterns.map((p) => ({ id: p.id, ...p.data })),
+    practices: practices.map((p) => ({ id: p.id, ...p.data })),
+  },
+  new Set(sample.data.traits),
+);
+const shown = result.layers.filter((l) => l.pick).slice(0, 5);
+const featured = shown.find((l) => l.layer.item.id === 'contract') ?? shown[0];
+
+const appShapes = [
+  { label: 'Static site', note: 'A handful of pages' },
+  { label: 'Single-page app', note: 'React · Vue · Angular' },
+  { label: 'Full-stack web', note: 'SSR, auth, a database' },
+  { label: 'Platform + mobile', note: 'Web, iOS, Android, public API' },
+  { label: 'Enterprise microservices', note: 'Dozens of services, events, contracts' },
+];
+
+const categories: { kind: Kind; glow: 'lime' | 'violet' | 'cyan' | 'amber'; blurb: string }[] = [
+  { kind: 'tool', glow: 'lime', blurb: 'Runners, mocking, contracts, environments and reporting, mapped to the layer each one serves.' },
+  { kind: 'pattern', glow: 'violet', blurb: 'Design patterns that keep suites readable as they grow, from page objects to Screenplay.' },
+  { kind: 'practice', glow: 'cyan', blurb: 'The habits that make tests fast, deterministic and trusted by the team.' },
+  { kind: 'guide', glow: 'amber', blurb: 'When, why and how to design for a situation, with the trade-offs spelled out.' },
+];
+const screenplay = patterns.find((p) => p.id === 'screenplay');
 ---
 
 <BaseLayout>
@@ -22,7 +76,7 @@ import { appShapes, sampleTraits, sampleResult, categories, principles } from '.
           <span class="size-1.5 animate-pulse-dot rounded-full bg-accent"></span>
           <span class="label-mono text-[0.625rem]">v0.1</span>
           <span class="h-3 w-px bg-line-strong"></span>
-          Design preview
+          {entries.length} tools, patterns, practices and guides
         </p>
         <h1 class="animate-rise mt-7 text-display font-medium text-balance [animation-delay:80ms]">
           Compose the right test stack. <span class="em-serif text-aurora pr-[0.08em]">With reasons.</span>
@@ -32,8 +86,8 @@ import { appShapes, sampleTraits, sampleResult, categories, principles } from '.
           when, why and how behind every layer.
         </p>
         <div class="animate-rise mt-10 flex flex-wrap items-center gap-3 [animation-delay:240ms]">
-          <Button href="/#composer" size="lg" arrow>Compose a stack</Button>
-          <Button href="/#explore" size="lg" variant="secondary">Explore patterns</Button>
+          <Button href="/composer" size="lg" arrow>Compose a stack</Button>
+          <Button href="/patterns" size="lg" variant="secondary">Explore patterns</Button>
         </div>
       </div>
       <div class="animate-rise [animation-delay:200ms]">
@@ -76,45 +130,77 @@ import { appShapes, sampleTraits, sampleResult, categories, principles } from '.
       </Fragment>
     </SectionHeading>
 
-    <div class="reveal mt-14 grid gap-4 lg:grid-cols-[1fr_1.1fr]">
-      <Card marks class="p-7 md:p-8">
-        <p class="label-mono text-fg-subtle">Step 1 of 4 · Application</p>
-        <h3 class="mt-4 text-h3 font-medium">What does your application look like?</h3>
-        <div class="mt-7">
-          <TraitPicker client:visible legend="Pick every trait that applies" traits={sampleTraits} initial={['spa', 'rest', 'microservices']} />
-        </div>
-        <div class="mt-8 flex items-center justify-between border-t border-line pt-6">
-          <Button variant="ghost" size="sm">Back</Button>
-          <Button size="sm" arrow>Continue</Button>
+    <div class="reveal mt-14 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+      <Card marks class="flex flex-col p-7 md:p-8">
+        <p class="label-mono text-fg-subtle">Example application</p>
+        <h3 class="mt-4 text-h3 font-medium">{sample.data.label}</h3>
+        <ul class="mt-6 flex flex-wrap gap-2">
+          {
+            sample.data.traits.map((t) => (
+              <li class="inline-flex h-9 items-center gap-2 rounded-full border border-accent-ink/40 bg-accent/10 px-3.5 text-sm text-fg">
+                <span class="size-1.5 rounded-full bg-accent-ink" aria-hidden="true" />
+                {traitLabels[t]}
+              </li>
+            ))
+          }
+        </ul>
+        {
+          featured?.pick && (
+            <div class="mt-8 rounded-xl border border-line bg-bg-elev p-5">
+              <p class="label-mono text-fg-subtle">Why {featured.pick.item.name} for {featured.layer.item.name.toLowerCase()}</p>
+              <ul class="mt-3 flex flex-wrap gap-1.5">
+                {featured.pick.contributions.map((c) => (
+                  <li class:list={['inline-flex h-6 items-center gap-1.5 rounded-full border px-2.5 text-xs', c.weight > 0 ? 'border-accent/25 bg-accent/10' : 'border-red/25 bg-red/10']}>
+                    {traitLabels[c.trait]}
+                    <span class:list={['font-mono', c.weight > 0 ? 'text-accent-ink' : 'text-red-ink']}>
+                      {c.weight > 0 ? '+' : ''}
+                      {c.weight}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+        <div class="mt-auto pt-8">
+          <Button href="/composer" arrow>Describe your own app</Button>
         </div>
       </Card>
 
       <Card glow="lime" class="p-7 md:p-8">
         <div class="flex items-center justify-between gap-4">
-          <p class="label-mono text-fg-subtle">Sample result</p>
-          <Tag kind="tool">Recommended stack</Tag>
+          <p class="label-mono text-fg-subtle">Recommended stack</p>
+          <Tag kind="tool">{result.layers.length} layers</Tag>
         </div>
         <div class="mt-7 space-y-6">
           {
-            sampleResult.recommended.map((r) => (
+            shown.map((r) => (
               <div class="grid gap-3 sm:grid-cols-[minmax(0,10rem)_1fr] sm:items-center sm:gap-6">
                 <div>
-                  <p class="label-mono text-fg-subtle">{r.layer}</p>
-                  <p class="mt-2 font-medium text-fg">{r.pick}</p>
+                  <p class="label-mono text-fg-subtle">{r.layer.item.name}</p>
+                  <a href={href(`/tools/${r.pick!.item.id}`)} class="mt-2 inline-block font-medium text-fg underline-offset-4 hover:underline">
+                    {r.pick!.item.name}
+                  </a>
                 </div>
-                <Meter label={`${r.pick} fit score`} value={r.score} tone={r.tone} compact />
+                <Meter label={`${r.pick!.item.name} fit score`} value={r.pick!.fit} compact />
               </div>
             ))
           }
         </div>
-        <div class="mt-8 grid gap-4 border-t border-line pt-6 sm:grid-cols-[auto_1fr]">
-          <p class="label-mono pt-1 text-fg-subtle">Runners-up</p>
-          <div class="flex flex-wrap gap-2">
-            {sampleResult.runnersUp.map((r) => <Tag kind="neutral">{r}</Tag>)}
-          </div>
-          <p class="label-mono pt-1 text-amber-ink">Trade-off</p>
-          <p class="text-sm leading-relaxed text-fg-muted">{sampleResult.tradeoff}</p>
-        </div>
+        {
+          featured?.pick && (
+            <div class="mt-8 grid gap-4 border-t border-line pt-6 sm:grid-cols-[auto_1fr]">
+              <p class="label-mono pt-1 text-fg-subtle">Runners-up</p>
+              <div class="flex flex-wrap gap-2">
+                {featured.runnersUp.map((r) => (
+                  <Tag kind="neutral">{r.item.name}</Tag>
+                ))}
+              </div>
+              <p class="label-mono pt-1 text-amber-ink">Trade-off</p>
+              <p class="text-sm leading-relaxed text-fg-muted">{featured.pick.item.tradeoffs[0]}</p>
+            </div>
+          )
+        }
       </Card>
     </div>
   </section>
@@ -128,43 +214,60 @@ import { appShapes, sampleTraits, sampleResult, categories, principles } from '.
 
     <div class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {
-        categories.map((c, i) => (
-          <Card glow={c.glow} marks class="reveal flex flex-col p-6" style={`transition-delay:${i * 70}ms`}>
-            <Tag kind={c.kind} class="self-start">{c.title}</Tag>
-            <p class="mt-6 text-[0.9375rem] leading-relaxed text-fg-muted">{c.blurb}</p>
-            <ul class="mt-auto space-y-2 border-t border-line pt-5">
-              {c.examples.map((e) => (
-                <li class="flex items-center justify-between font-mono text-xs text-fg-subtle">
-                  <span class="text-fg-muted">{e}</span>
-                  <span aria-hidden="true">↗</span>
-                </li>
-              ))}
-            </ul>
-            <div class="h-8" />
-          </Card>
-        ))
+        categories.map((c, i) => {
+          const items = entries.filter((e) => e.kind === c.kind);
+          return (
+            <Card glow={c.glow} marks class="reveal flex flex-col p-6" style={`transition-delay:${i * 70}ms`}>
+              <div class="flex items-center justify-between">
+                <Tag kind={c.kind}>{kindMeta[c.kind].plural}</Tag>
+                <span class="font-mono text-xs text-fg-subtle">{items.length}</span>
+              </div>
+              <p class="mt-6 text-[0.9375rem] leading-relaxed text-fg-muted">{c.blurb}</p>
+              <ul class="mt-auto space-y-1 border-t border-line pt-4">
+                {items.slice(0, 4).map((e) => (
+                  <li>
+                    <a href={href(entryPath(e.kind, e.id))} class="group flex items-center justify-between gap-3 py-1 font-mono text-xs text-fg-muted transition hover:text-fg">
+                      <span class="truncate">{e.title}</span>
+                      <span class="text-fg-subtle transition group-hover:text-fg" aria-hidden="true">↗</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <a href={href(kindMeta[c.kind].path)} class="mt-4 text-sm text-fg transition hover:text-accent-ink">
+                All {kindMeta[c.kind].plural.toLowerCase()} →
+              </a>
+            </Card>
+          );
+        })
       }
     </div>
   </section>
 
   <!-- When / why / how -->
-  <section class="container-page pt-36">
-    <SectionHeading index="03" eyebrow="When · Why · How">
-      Every recommendation <span class="em-serif">explains itself.</span>
-      <Fragment slot="lead">Each guide answers three questions before it shows any code. Here is the one for the Screenplay pattern.</Fragment>
-    </SectionHeading>
-    <div class="mt-14 grid gap-4 lg:grid-cols-3">
-      <Callout kind="when" title="Large suites, many actors" class="reveal">
-        <p>Your UI suite has grown past a few hundred tests, several user roles interact in one journey, and page objects have turned into god classes.</p>
-      </Callout>
-      <Callout kind="why" title="Composition over inheritance" class="reveal [transition-delay:80ms]">
-        <p>Actors perform <strong>tasks</strong> and ask <strong>questions</strong>. Small, reusable tasks compose into journeys, so suites scale without deep class hierarchies.</p>
-      </Callout>
-      <Callout kind="how" title="Start with three tasks" class="reveal [transition-delay:160ms]">
-        <p>Model one actor and three tasks for your most critical journey. Keep page structure inside abilities, and keep specs free of locators.</p>
-      </Callout>
-    </div>
-  </section>
+  {
+    screenplay && (
+      <section class="container-page pt-36">
+        <SectionHeading index="03" eyebrow="When · Why · How">
+          Every recommendation <span class="em-serif">explains itself.</span>
+          <Fragment slot="lead">Each pattern, practice and guide answers three questions before it shows any code. Here is the one for the Screenplay pattern.</Fragment>
+        </SectionHeading>
+        <div class="mt-14 grid gap-4 lg:grid-cols-3">
+          <Callout kind="when" title={screenplay.data.when[0]} class="reveal">
+            <p>{screenplay.data.when.slice(1).join(' ')}</p>
+          </Callout>
+          <Callout kind="why" title={screenplay.data.why[0]} class="reveal [transition-delay:80ms]">
+            <p>{screenplay.data.why.slice(1).join(' ')}</p>
+          </Callout>
+          <Callout kind="how" title={screenplay.data.how[0]} class="reveal [transition-delay:160ms]">
+            <p>{screenplay.data.how.slice(1).join(' ')}</p>
+          </Callout>
+        </div>
+        <div class="mt-8">
+          <Button href="/patterns/screenplay" variant="secondary" arrow>Read the Screenplay pattern</Button>
+        </div>
+      </section>
+    )
+  }
 
   <!-- Principles -->
   <section id="principles" class="container-page scroll-mt-20 pt-36">
@@ -174,17 +277,21 @@ import { appShapes, sampleTraits, sampleResult, categories, principles } from '.
     </SectionHeading>
     <ol class="mt-14 grid gap-px overflow-hidden rounded-card border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
       {
-        principles.map((p, i) => (
-          <li class="reveal group relative bg-bg-elev p-6 transition-colors duration-500 hover:bg-surface md:p-7">
-            <p class="font-mono text-xs text-fg-subtle transition-colors group-hover:text-accent-ink">{String(i + 1).padStart(2, '0')}</p>
-            <h3 class="mt-5 text-lg font-medium tracking-[-0.01em] text-fg">{p.title}</h3>
-            <p class="mt-2 text-sm leading-relaxed text-fg-muted">{p.line}</p>
+        principles.map((p) => (
+          <li class="reveal">
+            <a href={href(`/principles#${p.data.id}`)} class="group relative block h-full bg-bg-elev p-6 transition-colors duration-500 hover:bg-surface md:p-7">
+              <p class="font-mono text-xs text-fg-subtle transition-colors group-hover:text-accent-ink">{String(p.data.number).padStart(2, '0')}</p>
+              <h3 class="mt-5 text-lg font-medium tracking-[-0.01em] text-fg">{p.data.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-fg-muted">{p.data.line}</p>
+            </a>
           </li>
         ))
       }
-      <li class="reveal relative flex flex-col justify-between bg-bg-elev p-6 md:p-7">
-        <p class="label-mono text-accent-ink">Coming next</p>
-        <p class="mt-5 text-sm leading-relaxed text-fg-muted">Each principle links to the patterns, practices and tools that put it into practice.</p>
+      <li class="reveal">
+        <a href={href('/principles')} class="group flex h-full flex-col justify-between bg-bg-elev p-6 transition-colors duration-500 hover:bg-surface md:p-7">
+          <p class="label-mono text-accent-ink">The map</p>
+          <p class="mt-5 text-sm leading-relaxed text-fg-muted">See which patterns, practices, tools and guides put each principle into practice →</p>
+        </a>
       </li>
     </ol>
   </section>
@@ -198,7 +305,7 @@ import { appShapes, sampleTraits, sampleResult, categories, principles } from '.
         Stop debating frameworks. <span class="em-serif text-aurora">Start composing.</span>
       </h2>
       <div class="mt-10 flex justify-center">
-        <Button href="/#composer" size="lg" arrow>Compose a stack</Button>
+        <Button href="/composer" size="lg" arrow>Compose a stack</Button>
       </div>
     </div>
   </section>

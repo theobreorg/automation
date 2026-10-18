@@ -1,0 +1,54 @@
+{
+  "name": "Selenium WebDriver",
+  "summary": "The W3C WebDriver reference implementation, with bindings for Java, Python, C#, JavaScript and Ruby and Selenium Grid for distributed runs.",
+  "url": "https://www.selenium.dev",
+  "license": "Apache-2.0",
+  "layers": [
+    "ui-e2e"
+  ],
+  "languages": [
+    "java",
+    "python",
+    "csharp",
+    "ts"
+  ],
+  "baseline": 0,
+  "weights": {
+    "lang-java": 3,
+    "lang-python": 2,
+    "lang-csharp": 3,
+    "cross-browser": 2,
+    "legacy-ui": 3,
+    "qa-team": 1,
+    "flaky-suite": -2,
+    "fast-feedback": -1
+  },
+  "strengths": [
+    "W3C standard supported by every browser vendor.",
+    "The widest language support of any browser automation tool.",
+    "Selenium Grid and every cloud provider support it.",
+    "Copes well with legacy UIs, iframes and older browsers."
+  ],
+  "tradeoffs": [
+    "No auto-waiting: you write explicit waits, a common source of flakiness.",
+    "No test runner, reporting or isolation built in; you assemble them yourself.",
+    "Slower and more verbose than modern alternatives for new projects."
+  ],
+  "principles": [
+    "parallelism",
+    "synchronization"
+  ],
+  "related": {
+    "tools": [],
+    "patterns": [
+      "page-object",
+      "strategy-pattern",
+      "dependency-injection"
+    ],
+    "practices": [
+      "signal-based-waiting",
+      "resilient-selectors"
+    ],
+    "guides": []
+  }
+}

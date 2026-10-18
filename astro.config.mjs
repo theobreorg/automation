@@ -12,6 +12,12 @@ export default defineConfig({
   base,
   trailingSlash: 'ignore',
   integrations: [react()],
+  markdown: {
+    shikiConfig: {
+      themes: { light: 'github-light', dark: 'github-dark-dimmed' },
+      defaultColor: false,
+    },
+  },
   vite: {
     plugins: [tailwindcss()],
   },

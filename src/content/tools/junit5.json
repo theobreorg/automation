@@ -1,0 +1,45 @@
+{
+  "name": "JUnit 5",
+  "summary": "The standard test platform for the JVM, with the Jupiter programming model, extensions and parameterized tests.",
+  "url": "https://junit.org",
+  "license": "EPL-2.0",
+  "layers": [
+    "unit-component"
+  ],
+  "languages": [
+    "java"
+  ],
+  "baseline": 2,
+  "weights": {
+    "lang-ts": -6,
+    "lang-java": 4,
+    "lang-python": -6,
+    "lang-csharp": -6,
+    "devs-write-tests": 1
+  },
+  "strengths": [
+    "The default on the JVM, supported by every IDE and build tool.",
+    "Extension model for dependency injection and lifecycle hooks.",
+    "Parallel execution and tagging built in."
+  ],
+  "tradeoffs": [
+    "JVM only.",
+    "Its extension model takes time to learn."
+  ],
+  "principles": [
+    "foundations",
+    "observability"
+  ],
+  "related": {
+    "tools": [
+      "rest-assured",
+      "testcontainers"
+    ],
+    "patterns": [
+      "dependency-injection",
+      "fixture-lifecycle"
+    ],
+    "practices": [],
+    "guides": []
+  }
+}
